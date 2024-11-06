@@ -1,0 +1,57 @@
+<h2 mat-dialog-title>Izmeni rezervaciju</h2>
+<div mat-dialog-content>
+  <form>
+    <div class="form-group">
+      <label for="name">Ime klijenta:</label>
+      <input type="text" id="name" class="form-control" [(ngModel)]="reservation.name" name="name" required>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Telefon:</label>
+      <input type="tel" id="phone" class="form-control" [(ngModel)]="reservation.phone" name="phone" required>
+    </div>
+
+    <div class="form-group">
+      <label for="usluga">Usluga:</label>
+      <input type="text" id="usluga" class="form-control" [(ngModel)]="reservation.usluga.naziv" name="usluga" required>
+    </div>
+
+    <div class="form-group">
+      <label for="appointment_date">Datum i vreme termina:</label>
+      <input type="datetime-local" id="appointment_date" class="form-control" [(ngModel)]="reservation.appointmentDate" name="appointment_date" required>
+    </div>
+
+    <div class="form-group">
+      <label for="vremeTrajanja">Trajanje termina (min):</label>
+      <input type="number" id="vremeTrajanja" class="form-control" [(ngModel)]="reservation.vremeTrajanja" name="vremeTrajanja" required>
+    </div>
+
+    <div class="form-group">
+      <label for="firstMsgSent">Prvi SMS poslat:</label>
+      <select id="firstMsgSent" class="form-control" [(ngModel)]="reservation.firstMsgSent" name="firstMsgSent" required>
+        <option [value]="true">Da</option>
+        <option [value]="false">Ne</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="secondMsgSent">Drugi SMS poslat:</label>
+      <select id="secondMsgSent" class="form-control" [(ngModel)]="reservation.secondMsgSent" name="secondMsgSent" required>
+        <option [value]="true">Da</option>
+        <option [value]="false">Ne</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="confirmed">Potvrđeno:</label>
+      <select id="confirmed" class="form-control" [(ngModel)]="reservation.confirmed" name="confirmed" required>
+        <option [value]="true">Da</option>
+        <option [value]="false">Ne</option>
+      </select>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Otkaži</button>
+  <button mat-button color="primary" (click)="onSave()">Sačuvaj</button>
+</div>

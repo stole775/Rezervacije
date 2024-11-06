@@ -1,0 +1,136 @@
+<!-- src/app/components/settings/image-settings/image-settings.component.html -->
+<div class="row gy-4">
+    <div class="col-12">
+      <h3 class="mb-3">Image Settings</h3>
+    </div>
+  
+    <!-- Company Logo -->
+    <div class="col-md-6">
+      <label for="logoFile" class="form-label">Company Logo:</label>
+      <div *ngIf="settings.imageUrlLogo; else noLogo">
+        <div class="image-preview text-center">
+          <img
+            [src]="safeUrl(settings.imageUrlLogo)"
+            class="img-thumbnail mb-2"
+            alt="Logo"
+            style="max-width: 150px;"
+          />
+          <button
+            type="button"
+            class="btn btn-danger btn-sm mt-1 w-100"
+            (click)="deleteImage.emit(settings.imageUrlLogo); emitDeleteImageSuccess(settings.imageUrlLogo)"
+          >
+            Delete Logo
+          </button>
+        </div>
+      </div>
+      <ng-template #noLogo>
+        <input
+          type="file"
+          class="form-control"
+          id="logoFile"
+          (change)="onLogoSelected.emit($event)"
+        />
+        <button
+          type="button"
+          class="btn btn-primary mt-2"
+          (click)="uploadLogo.emit(); emitUploadLogoSuccess()"
+        >
+          Upload Logo
+        </button>
+      </ng-template>
+    </div>
+  
+    <!-- Background Image -->
+    <div class="col-md-6">
+      <label for="backgroundFile" class="form-label">Background Image:</label>
+      <div *ngIf="settings.imageUrlBackground; else noBackground">
+        <div class="image-preview text-center">
+          <img
+            [src]="safeUrl(settings.imageUrlBackground)"
+            class="img-thumbnail mb-2"
+            alt="Background Image"
+            style="max-width: 150px;"
+          />
+          <button
+            type="button"
+            class="btn btn-danger btn-sm mt-1 w-100"
+            (click)="deleteImage.emit(settings.imageUrlBackground); emitDeleteImageError(settings.imageUrlBackground)"
+          >
+            Delete Background
+          </button>
+        </div>
+      </div>
+      <ng-template #noBackground>
+        <input
+          type="file"
+          class="form-control"
+          id="backgroundFile"
+          (change)="onBackgroundSelected.emit($event)"
+        />
+        <button
+          type="button"
+          class="btn btn-primary mt-2"
+          (click)="uploadBackground.emit(); emitUploadBackgroundSuccess()"
+        >
+          Upload Background
+        </button>
+      </ng-template>
+    </div>
+  
+    <!-- Additional Images -->
+    <div class="col-12">
+      <label class="form-label">
+        Additional Images ({{ imageCount }} / {{ maxImagesAllowed }}):
+      </label>
+      <div class="d-flex flex-wrap">
+        <div *ngFor="let image of images" class="image-preview me-2 mb-2">
+          <img
+            [src]="safeUrl(image)"
+            class="img-thumbnail"
+            alt="Image"
+            style="max-width: 100px;"
+          />
+          <button
+            type="button"
+            class="btn btn-danger btn-sm mt-1 w-100"
+            (click)="deleteImage.emit(image); emitDeleteImageSuccess(image)"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Upload Additional Images -->
+    <div class="col-12">
+      <label for="newImages" class="form-label">Add Images (max 10):</label>
+      <input
+        type="file"
+        class="form-control"
+        id="newImages"
+        (change)="onMultipleImagesSelected.emit($event)"
+        multiple
+      />
+  
+      <div class="d-flex flex-wrap mt-3" *ngIf="previewImages.length > 0">
+        <div *ngFor="let image of previewImages" class="image-preview me-2 mb-2">
+          <img
+            [src]="image"
+            class="img-thumbnail"
+            alt="Preview Image"
+            style="max-width: 100px;"
+          />
+        </div>
+      </div>
+  
+      <button
+        type="button"
+        class="btn btn-primary mt-3"
+        (click)="uploadMultipleImages.emit(); emitUploadMultipleImagesSuccess()"
+      >
+        Upload Images
+      </button>
+    </div>
+  </div>
+  

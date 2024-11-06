@@ -1,0 +1,32 @@
+# Faza izgradnje aplikacije
+FROM node:16 AS build
+
+# Postavi radni direktorijum
+WORKDIR /app
+
+# Kopiraj package.json i package-lock.json (ako postoji)
+COPY package*.json ./
+
+# Instaliraj zavisnosti
+RUN npm install
+
+# Kopiraj ostatak aplikacije
+COPY . .
+
+# Izgradi aplikaciju za produkciju
+RUN npm run build --prod
+
+# Faza serviranja aplikacije pomoću Nginx-a
+FROM nginx:alpine
+
+# Kopiraj build output iz prethodne faze u Nginx-ov folder za statički sadržaj
+COPY --from=build /app/dist/reservation-app /usr/share/nginx/html
+
+# Izloži port 80
+EXPOSE 80
+
+# Opcionalno: Kopiraj prilagođeni Nginx konfiguracioni fajl (ako ga imaš)
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+# Pokreni Nginx u prednjem planu
+CMD ["nginx", "-g", "daemon off;"]

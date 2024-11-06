@@ -1,0 +1,60 @@
+/* Hide menu by default on small screens, display fully on larger screens */
+#navbarMenu {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#navbarMenu.show {
+  display: block;
+  opacity: 1;
+}
+
+/* Align menu horizontally on larger screens */
+@media (min-width: 992px) {
+  #navbarMenu {
+    display: block !important; /* Ensure it's always shown on larger screens */
+    opacity: 1;
+  }
+
+  ul.nav {
+    flex-direction: row;
+  }
+
+  .nav-link {
+    margin-right: 1rem;
+  }
+
+  /* Hide "Dodaj Rezervaciju" button on desktop */
+  .d-lg-none {
+    display: none !important;
+  }
+}
+
+/* Mobile view styling */
+.navbar-toggler {
+  font-size: 1.5rem;
+  border: none;
+  background: none;
+  margin-left: auto; /* Ensure it's always right aligned */
+}
+
+.navbar-toggler:focus {
+  outline: none;
+}
+
+/* Slide down animation for mobile menu */
+#navbarMenu.show {
+  animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,73 @@
+<!-- src/app/components/settings/message-settings/message-settings.component.html -->
+<div class="row gy-4">
+    <div class="col-12">
+      <h3 class="mb-3">Message Settings</h3>
+    </div>
+  
+    <div class="col-md-6">
+      <label for="number_of_messages" class="form-label">Number of Messages to Send:</label>
+      <select
+        id="number_of_messages"
+        name="number_of_messages"
+        class="form-select"
+        [(ngModel)]="settings.numberOfMessages"
+        (ngModelChange)="onSettingsChange()"
+        required
+      >
+        <option [ngValue]="1">1</option>
+        <option [ngValue]="2">2</option>
+      </select>
+    </div>
+  
+    <div class="col-md-6">
+      <label for="hours_before_first_msg" class="form-label">Hours Before First Message:</label>
+      <input
+        type="number"
+        class="form-control"
+        id="hours_before_first_msg"
+        name="hours_before_first_msg"
+        [(ngModel)]="settings.hoursBeforeFirstMsg"
+        (ngModelChange)="onSettingsChange()"
+        required
+      />
+    </div>
+  
+    <div class="col-md-6" *ngIf="settings.numberOfMessages === 2">
+      <label for="hours_before_second_msg" class="form-label">Hours Before Second Message:</label>
+      <input
+        type="number"
+        class="form-control"
+        id="hours_before_second_msg"
+        name="hours_before_second_msg"
+        [(ngModel)]="settings.hoursBeforeSecondMsg"
+        (ngModelChange)="onSettingsChange()"
+      />
+    </div>
+  
+    <div class="col-md-6">
+      <label for="days_to_keep" class="form-label">Number of Days to Keep Reservations:</label>
+      <input
+        type="number"
+        class="form-control"
+        id="days_to_keep"
+        name="days_to_keep"
+        [(ngModel)]="settings.daysToKeep"
+        (ngModelChange)="onSettingsChange()"
+        required
+      />
+    </div>
+  
+    <div class="col-12">
+      <label for="message_template" class="form-label">Message Template:</label>
+      <textarea
+        class="form-control"
+        id="message_template"
+        name="message_template"
+        rows="4"
+        [(ngModel)]="settings.messageTemplate"
+        (ngModelChange)="onSettingsChange()"
+        required
+      ></textarea>
+    </div>
+  </div>
+  

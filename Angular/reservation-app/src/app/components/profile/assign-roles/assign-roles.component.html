@@ -1,0 +1,73 @@
+<!-- assign-roles.component.html -->
+<div class="container">
+  <h3 class="mb-4">Dodeljivanje Permisija</h3>
+
+  <!-- Odabir Kompanije za SADMIN-a -->
+  <div *ngIf="userRole === 'SADMIN'" class="mb-3">
+    <label for="companySelect" class="form-label">Odaberi Kompaniju</label>
+    <select
+      id="companySelect"
+      class="form-select"
+      [(ngModel)]="selectedCompanyId"
+      (change)="onCompanyChange()"
+    >
+      <option [ngValue]="null">-- Izaberi Kompaniju --</option>
+      <option *ngFor="let company of companies" [value]="company.id">
+        {{ company.name }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Poruke -->
+  <div
+    *ngIf="userRole === 'SADMIN' && selectedCompanyId === null"
+    class="alert alert-info"
+  >
+    Molimo vas, odaberite kompaniju.
+  </div>
+  <div
+    *ngIf="(userRole !== 'SADMIN' || selectedCompanyId) && users.length === 0"
+    class="alert alert-info"
+  >
+    Nema korisnika za prikaz.
+  </div>
+
+  <!-- Tabela sa korisnicima -->
+  <div *ngIf="users.length > 0" class="table-responsive mt-4">
+    <table class="table table-striped align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Ime</th>
+          <th>Email</th>
+          <th>Uloga</th>
+          <th>Akcije</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.ime }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <select
+              [(ngModel)]="user.newRole"
+              class="form-select form-select-sm " style="min-width: 100px;"
+            >
+               
+              <option value="CADMIN">CAdmin</option>
+              <option value="CUSTOMER">Customer</option>
+            </select>
+          </td>
+          <td>
+            <button
+              class="btn btn-sm btn-primary"
+              (click)="assignRole(user)"
+              [disabled]="!user.newRole || user.newRole === user.role.name"
+            >
+              Dodeli
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

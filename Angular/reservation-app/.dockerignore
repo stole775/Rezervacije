@@ -1,0 +1,12 @@
+# Node modules and cache
+#node_modules
+#.angular
+#dist
+
+# Temp files and logs
+#npm-debug.log
+#yarn-error.log
+
+# IDE and editor settings
+#.idea/
+#.vscode/

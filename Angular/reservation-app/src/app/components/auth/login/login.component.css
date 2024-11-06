@@ -1,0 +1,22 @@
+.login-container {
+    background-color: #f7f7f7;
+  }
+  
+  .card {
+    border: none;
+    border-radius: 8px;
+  }
+  
+  .error-message {
+    margin-top: 10px;
+    color: red;
+  }
+  
+  .register-link a {
+    color: #007bff;
+  }
+  
+  .register-link a:hover {
+    text-decoration: underline;
+  }
+  

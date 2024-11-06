@@ -1,0 +1,88 @@
+<!-- src/app/components/settings/contact-info/contact-info.component.html -->
+<div class="row gy-4">
+    <div class="col-12">
+      <h3 class="mb-3">Contact Information</h3>
+    </div>
+  
+    <div class="col-md-6">
+      <label for="email" class="form-label">Email:</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        [(ngModel)]="settings.email"
+        (ngModelChange)="onSettingsChange()"
+        required
+      />
+    </div>
+  
+    <div class="col-md-6">
+      <label for="phone" class="form-label">Phone:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="phone"
+        name="phone"
+        [(ngModel)]="settings.phone"
+        (ngModelChange)="onSettingsChange()"
+        required
+      />
+    </div>
+  
+    <div class="col-md-6">
+      <label for="address" class="form-label">Address:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="address"
+        name="address"
+        [(ngModel)]="settings.address"
+        (ngModelChange)="onSettingsChange()"
+        required
+      />
+    </div>
+  
+    <div class="col-md-6">
+      <label for="city" class="form-label">City:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="city"
+        name="city"
+        [(ngModel)]="settings.city"
+        (ngModelChange)="onSettingsChange()"
+        required
+      />
+    </div>
+  
+    <div class="col-md-6">
+      <label for="zip" class="form-label">ZIP:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="zip"
+        name="zip"
+        [(ngModel)]="settings.zip"
+        (ngModelChange)="onSettingsChange()"
+        required
+      />
+    </div>
+  
+    <div class="col-md-6">
+      <label for="timezone" class="form-label">Timezone (UTC):</label>
+      <select
+        id="timezone"
+        name="timezone"
+        class="form-select"
+        [(ngModel)]="settings.timezone"
+        (ngModelChange)="onSettingsChange()"
+        required
+      >
+        <option *ngFor="let zone of timezones" [value]="zone.value">
+          {{ zone.displayName }}
+        </option>
+      </select>
+    </div>
+  </div>
+  

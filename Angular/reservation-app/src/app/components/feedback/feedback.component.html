@@ -1,0 +1,22 @@
+<div class="container mt-5">
+  <h2>Feedback</h2>
+
+  <form (ngSubmit)="submitFeedback()">
+    <div class="form-group mb-3">
+      <label for="feedbackText">Your Feedback</label>
+      <textarea
+        id="feedbackText"
+        class="form-control"
+        [(ngModel)]="feedbackText"
+        name="feedbackText"
+        rows="5"
+        required
+      ></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+  <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+</div>

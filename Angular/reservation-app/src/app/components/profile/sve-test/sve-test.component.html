@@ -1,0 +1,73 @@
+<!-- profile.component.html -->
+<div class="container my-5">
+    <h2 class="text-center mb-4">Profil Stranica</h2>
+  
+    <ul class="nav nav-tabs justify-content-center">
+      <!-- Tabovi dostupni samo korisnicima koji nisu CUSTOMER -->
+      <li class="nav-item" *ngIf="userRole !== 'CUSTOMER'">
+        <a
+          class="nav-link"
+          [ngClass]="{ active: activeTab === 'assignRolesTab' }"
+          (click)="setActiveTab('assignRolesTab')"
+          href="javascript:void(0);"
+        >
+          Dodela Permisija
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="userRole !== 'CUSTOMER'">
+        <a
+          class="nav-link"
+          [ngClass]="{ active: activeTab === 'blockedAccountsTab' }"
+          (click)="setActiveTab('blockedAccountsTab')"
+          href="javascript:void(0);"
+        >
+          Blokirani Nalozi
+        </a>
+      </li>
+      <!-- Promena Lozinke dostupna svima -->
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [ngClass]="{ active: activeTab === 'changePasswordTab' }"
+          (click)="setActiveTab('changePasswordTab')"
+          href="javascript:void(0);"
+        >
+          Promena Lozinke
+        </a>
+      </li>
+      <!-- Izmena Podataka dostupna svima -->
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [ngClass]="{ active: activeTab === 'editProfileTab' }"
+          (click)="setActiveTab('editProfileTab')"
+          href="javascript:void(0);"
+        >
+          Izmena Podataka
+        </a>
+      </li>
+    </ul>
+  
+    <div class="tab-content mt-4">
+      <!-- Dodela Permisija -->
+      <div *ngIf="activeTab === 'assignRolesTab'">
+        <app-assign-roles></app-assign-roles>
+      </div>
+  
+      <!-- Blokirani Nalozi -->
+      <div *ngIf="activeTab === 'blockedAccountsTab'">
+        <app-blocked-accounts></app-blocked-accounts>
+      </div>
+  
+      <!-- Promena Lozinke -->
+      <div *ngIf="activeTab === 'changePasswordTab'">
+        <app-change-password></app-change-password>
+      </div>
+  
+      <!-- Izmena Podataka -->
+      <div *ngIf="activeTab === 'editProfileTab'">
+        <app-edit-profile></app-edit-profile>
+      </div>
+    </div>
+  </div>
+  

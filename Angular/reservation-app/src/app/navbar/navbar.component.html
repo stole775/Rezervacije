@@ -1,0 +1,90 @@
+<!-- navbar.component.html -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <!-- Navbar Brand -->
+    <a class="navbar-brand fs-4" routerLink="/">Rezervacije</a>
+
+    <!-- Mobile Toggle Button -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      (click)="toggleMenu()"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Links -->
+    <div
+      [ngClass]="{ 'collapse navbar-collapse': true, show: isMenuOpen }"
+      id="navbarNav"
+    >
+      <ul class="navbar-nav ms-auto">
+        <!-- Conditionally show links based on the current page -->
+        <!-- "Dodaj Rezervaciju" - hidden when on the add-reservation page -->
+        <li class="nav-item" *ngIf="!isAddReservationPage">
+          <a
+            class="nav-link fs-5 py-3"
+            routerLink="/add-reservation"
+            (click)="closeMenu()"
+          >
+            <i class="fas fa-plus me-2"></i> Dodaj rezervaciju
+          </a>
+        </li>
+
+        <!-- "Rezervacije" - hidden when on the reservations page -->
+        <li class="nav-item" *ngIf="!isReservationsPage">
+          <a
+            class="nav-link fs-5 py-3"
+            routerLink="/reservations"
+            (click)="closeMenu()"
+          >
+            <i class="fas fa-calendar-alt me-2"></i> Rezervacije
+          </a>
+        </li>
+
+        <!-- Feedback -->
+        <li class="nav-item">
+          <a
+            class="nav-link fs-5 py-3"
+            routerLink="/feedback"
+            (click)="closeMenu()"
+          >
+            <i class="fas fa-comments me-2"></i> Feedback
+          </a>
+        </li>
+
+        <!-- Profil -->
+        <li class="nav-item">
+          <a
+            class="nav-link fs-5 py-3"
+            routerLink="/profile"
+            (click)="closeMenu()"
+          >
+            <i class="fas fa-user me-2"></i> Profil
+          </a>
+        </li>
+
+        <!-- Podešavanja - hidden for customers -->
+        <li class="nav-item" *ngIf="!isCustomer">
+          <a
+            class="nav-link fs-5 py-3"
+            routerLink="/settings"
+            (click)="closeMenu()"
+          >
+            <i class="fas fa-cog me-2"></i> Podešavanja
+          </a>
+        </li>
+
+        <!-- Odjava -->
+        <li class="nav-item">
+          <a class="nav-link fs-5 py-3" (click)="logout()">
+            <i class="fas fa-sign-out-alt me-2"></i> Odjava
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

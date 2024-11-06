@@ -1,0 +1,77 @@
+<!-- src/app/components/reservation-admin/reservation-admin.component.html -->
+
+<div class="container">
+  <!-- Naslov na osnovu uloge -->
+  <h2 *ngIf="isSAdmin || isCAdmin; else userTitle">Admin - Upravljanje rezervacijama</h2>
+  <ng-template #userTitle>
+    <h2 *ngIf="isCAdmin || isCustomer">Forma za dodavanje rezervacije</h2> <!-- Prikaz za CADMIN i Customer -->
+  </ng-template>
+
+  <!-- Reservation Form -->
+  <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+   
+    <!-- Ime klijenta (vidljivo za sve) -->
+    <div class="mb-3">
+      <label for="name" class="form-label">Ime klijenta</label>
+      <input type="text" class="form-control" id="name" formControlName="name" required />
+    </div>
+
+    <!-- Telefon (vidljivo za sve) -->
+    <div class="mb-3">
+      <label for="phone" class="form-label">Telefon</label>
+      <input type="tel" class="form-control" id="phone" formControlName="phone" required />
+    </div>
+
+    <!-- Datum i vreme termina (vidljivo za sve) -->
+    <div class="mb-3">
+      <label for="appointmentDate" class="form-label">Datum i vreme termina</label>
+      <input type="datetime-local" class="form-control" id="appointmentDate" formControlName="appointmentDate" required />
+    </div>
+
+    <!-- Trajanje termina (vidljivo za SADMIN, CADMIN i Admin) -->
+    <div class="mb-3" *ngIf="isSAdmin || isCAdmin  ">
+      <label for="vremeTrajanja" class="form-label">Trajanje termina (min)</label>
+      <input type="number" class="form-control" id="vremeTrajanja" formControlName="vremeTrajanja" required />
+    </div>
+
+    <!-- Kompanija (samo za SADMIN) -->
+    <div class="mb-3" *ngIf="isSAdmin">
+      <label for="company" class="form-label">Kompanija</label>
+      <select class="form-select" id="company" formControlName="companyId" required>
+        <option value="" disabled>Izaberite kompaniju</option>
+        <option *ngFor="let company of companies" [value]="company.id">
+          {{ company.name }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Radnik (vidljivo za SADMIN i CADMIN) -->
+    <div class="mb-3" *ngIf="isSAdmin || isCAdmin">
+      <label for="worker" class="form-label">Radnik</label>
+      <select class="form-select" id="worker" formControlName="workerId" required>
+        <option value="" disabled>Izaberite radnika</option>
+        <option *ngFor="let worker of workers" [value]="worker.id">
+          {{ worker.username }}
+        </option>
+      </select>
+    </div>
+     <!-- Usluga (vidljivo za sve) -->
+     <div class="mb-3">
+      <label for="usluga" class="form-label">Usluga</label>
+      <select class="form-select" id="usluga" formControlName="uslugaId" required>
+        <option value="" disabled>Izaberite uslugu</option>
+        <option *ngFor="let service of services" [value]="service.id">
+          {{ service.naziv + " - " + service.cena + " RSD" }}
+        </option>
+      </select>
+    </div>
+    
+
+    <!-- Submit dugme (vidljivo za sve) -->
+    <button type="submit" class="btn btn-primary">
+      {{ isCAdmin || isSAdmin ? 'Sačuvaj rezervaciju' : 'Dodaj termin' }}
+    </button>
+  </form>
+</div>
+
+ 

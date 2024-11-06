@@ -1,0 +1,106 @@
+<!-- edit-profile.component.html -->
+<div class="container">
+  <h3 class="mb-4">Izmena Podataka</h3>
+
+  <!-- Poruke -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+
+  <!-- Odabir Kompanije za SADMIN-a -->
+  <div *ngIf="userRole === 'SADMIN'" class="mb-3">
+    <label for="companySelect" class="form-label">Odaberi Kompaniju</label>
+    <select
+      id="companySelect"
+      class="form-select"
+      [(ngModel)]="selectedCompanyId"
+      (change)="onCompanyChange()"
+    >
+      <option [ngValue]="null">-- Izaberi Kompaniju --</option>
+      <option *ngFor="let company of companies" [value]="company.id">
+        {{ company.name }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Odabir Korisnika za SADMIN-a i CADMIN-a -->
+  <div
+    *ngIf="(userRole === 'SADMIN' || userRole === 'CADMIN') && users.length > 0"
+    class="mb-3"
+  >
+    <label for="userSelect" class="form-label">Odaberi Korisnika</label>
+    <select
+      id="userSelect"
+      class="form-select"
+      [(ngModel)]="selectedUserId"
+      (change)="onUserChange()"
+    >
+      <option [ngValue]="null">-- Izaberi Korisnika --</option>
+      <option *ngFor="let user of users" [value]="user.id">
+        {{ user.ime }} ({{ user.email }}) {{ user.username }} ({{ user.role.name }})
+      </option>
+    </select>
+  </div>
+
+  <!-- Forma za izmenu podataka -->
+  <div
+    *ngIf="
+      userData &&
+      ((userRole === 'CUSTOMER') ||
+        (userRole !== 'CUSTOMER' && selectedUserId))
+    "
+    class="mt-4"
+  >
+    <form (ngSubmit)="saveChanges()">
+      <div class="mb-3">
+        <label for="username" class="form-label">Korisničko ime</label>
+        <input
+          type="text"
+          id="username"
+          class="form-control"
+          [(ngModel)]="userData.username"
+          name="username"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="ime" class="form-label">Ime</label>
+        <input
+          type="text"
+          id="ime"
+          class="form-control"
+          [(ngModel)]="userData.ime"
+          name="ime"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="prezime" class="form-label">Prezime</label>
+        <input
+          type="text"
+          id="prezime"
+          class="form-control"
+          [(ngModel)]="userData.prezime"
+          name="prezime"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          [(ngModel)]="userData.email"
+          name="email"
+          required
+        />
+      </div>
+
+      <button type="submit" class="btn btn-success">Sačuvaj Promene</button>
+    </form>
+  </div>
+</div>

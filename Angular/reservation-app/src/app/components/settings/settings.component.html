@@ -1,0 +1,111 @@
+<!-- src/app/components/settings/settings2/settings2.component.html -->
+<div class="container my-5">
+    <section class="settings-form">
+      <h2 class="mb-4"><i class="fas fa-tools me-2"></i> System Settings</h2>
+  
+      <!-- Global Notification Area -->
+      <div
+        *ngIf="message"
+        class="alert text-center"
+        [ngClass]="{
+          'alert-success': !message.includes('Error'),
+          'alert-danger': message.includes('Error')
+        }"
+      >
+        {{ message }}
+      </div>
+  
+      <!-- Floating Toast Notification -->
+      <div *ngIf="toastMessage" class="toast-container position-fixed top-0 end-0 p-3">
+        <div
+          class="toast align-items-center text-bg-primary border-0 show"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          data-bs-delay="2000"
+        >
+          <div class="d-flex">
+            <div class="toast-body">
+              {{ toastMessage }}
+            </div>
+            <button
+              type="button"
+              class="btn-close btn-close-white me-2 m-auto"
+              (click)="hideToast()"
+              aria-label="Close"
+            ></button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Company Selection for SADMIN -->
+      <div *ngIf="userRole === 'SADMIN'" class="mb-4">
+        <label for="companySelect" class="form-label">Select Company:</label>
+        <select
+          class="form-select"
+          id="companySelect"
+          [(ngModel)]="selectedCompanyId"
+          (change)="onCompanyChange()"
+        >
+          <option [ngValue]="null">-- Select Company --</option>
+          <option *ngFor="let company of companies" [value]="company.id">
+            {{ company.name }}
+          </option>
+        </select>
+      </div>
+  
+      <!-- Settings Form -->
+      <form
+        #settingsForm="ngForm"
+        (ngSubmit)="onSubmit(settingsForm)"
+        *ngIf="selectedCompanyId || userRole === 'CADMIN'"
+      >
+        <!-- Message Settings Sub-Component -->
+        <app-message-settings
+          [settings]="settings"
+          (settingsChange)="onSettingsChange($event)"
+        ></app-message-settings>
+  
+        <!-- Page Settings Sub-Component -->
+        <app-page-settings
+          [settings]="settings"
+          (settingsChange)="onSettingsChange($event)"
+        ></app-page-settings>
+  
+        <!-- Contact Info Sub-Component -->
+        <app-contact-info
+          [settings]="settings"
+          [timezones]="timezones"
+          (settingsChange)="onSettingsChange($event)"
+        ></app-contact-info>
+  
+        <!-- Image Settings Sub-Component -->
+        <app-image-settings
+          [settings]="settings"
+          [images]="images"
+          [imageCount]="imageCount"
+          [maxImagesAllowed]="maxImagesAllowed"
+          [previewImages]="previewImages"
+          (uploadLogo)="uploadLogo()"
+          (deleteImage)="deleteImage($event)"
+          (uploadBackground)="uploadBackground()"
+          (uploadMultipleImages)="uploadMultipleImages()"
+          (onLogoSelected)="onLogoSelected($event)"
+          (onBackgroundSelected)="onBackgroundSelected($event)"
+          (onMultipleImagesSelected)="onMultipleImagesSelected($event)"
+        ></app-image-settings>
+  
+        <!-- Save Button -->
+        <div class="text-center mt-4">
+          <button
+            type="submit"
+            class="btn btn-primary btn-lg mb-5"
+            [disabled]="settingsForm.invalid"
+          >
+            Save Settings
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+  

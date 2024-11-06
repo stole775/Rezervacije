@@ -1,0 +1,82 @@
+.table th, .table td {
+  padding: 15px 12px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.table .btn {
+  padding: 8px 12px;
+  font-size: 1rem;
+}
+
+.btn-call {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.table-responsive {
+  margin-bottom: 30px;
+}
+
+.form-control {
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+
+.container {
+  max-width: 100%;
+}
+
+.btn {
+  margin: 5px;
+}
+
+.additional-details {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* Mobile styles */
+@media (max-width: 992px) {
+  .table th, .table td {
+    padding: 5px 4px;
+    font-size: 0.85rem;
+  }
+
+  .table .btn {
+    padding: 3px 5px;
+    font-size: 0.75rem;
+  }
+
+  .form-control {
+    margin-bottom: 10px;
+    font-size: 0.85rem;
+  }
+
+  .btn {
+    margin: 2px;
+    font-size: 0.85rem;
+  }
+
+  .additional-details {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+
+  .table-responsive {
+    margin-bottom: 15px;
+  }
+
+  /* Hide non-essential columns on mobile */
+  .d-lg-table-cell {
+    display: none; 
+  }
+
+  /* Show additional details row on mobile when toggled */
+  .d-lg-none {
+    display: table-row !important; 
+  }
+}

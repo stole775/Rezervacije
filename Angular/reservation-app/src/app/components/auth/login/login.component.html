@@ -1,0 +1,72 @@
+<!-- Header Section -->
+<div class="header-section bg-dark text-white py-3">
+  <div class="container">
+    <h1 class="text-center mb-0">Rezervacije</h1>
+  </div>
+</div> 
+
+<!-- Main Content Section -->
+<div class="container-fluid bg-light vh-100 d-flex flex-column justify-content-center align-items-center">
+  <!-- Card for Login Form -->
+  <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%;">
+    <h2 class="text-center mb-4">Login</h2>
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <!-- Username Input -->
+      <div class="form-group mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input
+          type="text"
+          id="username"
+          class="form-control form-control-sm"
+          name="username"
+          [(ngModel)]="loginData.username"
+          required
+          #username="ngModel"
+        />
+        <div *ngIf="username.invalid && username.touched" class="text-danger">
+          Username je obavezan
+        </div>
+      </div>
+
+      <!-- Password Input -->
+      <div class="form-group mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input
+          type="password"
+          id="password"
+          class="form-control form-control-sm"
+          name="password"
+          [(ngModel)]="loginData.password"
+          required
+          minlength="3"
+          #password="ngModel"
+        />
+        <div *ngIf="password.invalid && password.touched" class="text-danger">
+          Passwor mora imati barem 3 karaktera.
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="btn btn-primary btn-block w-100"
+        [disabled]="loginForm.invalid"
+      >
+        Login
+      </button>
+    </form>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="text-danger text-center mt-3">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Register Link -->
+    <div class="text-center mt-3">
+      <p>
+        Nemate nalog?
+        <a routerLink="/register" class="text-primary">Registrujte se ovde</a>
+      </p>
+    </div>
+  </div>
+</div>
