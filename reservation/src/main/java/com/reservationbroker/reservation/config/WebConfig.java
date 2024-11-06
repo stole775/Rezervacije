@@ -38,21 +38,16 @@ public class WebConfig implements WebMvcConfigurer {
                     CorsConfiguration corsConfiguration = new CorsConfiguration();
                     corsConfiguration.setAllowedOrigins(List.of(
                             "http://localhost:4200",
-                            "http://192.168.100.150:4200",
-                            "http://192.168.100.150",
-                            "http://89.23.68.241",
-                            "http://89.23.68.241:8000",
-                            "http://016travel.duckdns.org"
-                                ,"ovo iznad ce se obrisati",
-                            "http://localhost:4200",
-                            "http://localhost:3000",
-                            "http://localhost:8080",
+                            "http://016travel.duckdns.org",
                             "http://188.245.154.242:4200",
-                            "http://188.245.154.242:3000",
                             "http://188.245.154.242:8080",
+                            "https://188.245.154.242",
+                             
                             "https://188.245.154.242:4200",
                             "https://188.245.154.242:3000",
-                            "https://188.245.154.242:8080"
+                            "https://188.245.154.242:8080",
+                            "https://188.245.154.242",
+                            "https://188.245.154.242/api"
 
                     )); // Dozvoli frontend sa lokalnih i mrežnih IP adresa
                     corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
