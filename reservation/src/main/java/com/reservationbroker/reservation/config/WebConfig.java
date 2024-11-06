@@ -37,13 +37,18 @@ public class WebConfig implements WebMvcConfigurer {
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration corsConfiguration = new CorsConfiguration();
                     corsConfiguration.setAllowedOrigins(List.of(
-                            "*"
+                            "http://localhost:3000",
+                            "http://192.168.1.x",
+                            "https://tvoj-domen.com",
+                            "https://188.245.154.242",
+                            "http://188.245.154.242"
 
                     )); // Dozvoli frontend sa lokalnih i mrežnih IP adresa
                     corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     corsConfiguration.setAllowedHeaders(List.of("*"));
                     corsConfiguration.setExposedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
-                    corsConfiguration.setAllowCredentials(true);
+                    corsConfiguration.setAllowCredentials(true);//umesto allowedOrigins corsConfiguration.setAllowedOrigins(List.of("https://tvoj-domen.com"));
+
                     return corsConfiguration;
                 }))
 
