@@ -3,7 +3,7 @@ version: '3.8'
 services:
   angular-app:
     build:
-      context: ./app/Angular/reservation-app
+      context: ./Angular/reservation-app
       dockerfile: Dockerfile
     container_name: angular_frontend
     ports:
