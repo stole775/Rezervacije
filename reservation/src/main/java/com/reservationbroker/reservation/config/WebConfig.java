@@ -38,7 +38,8 @@ public class WebConfig implements WebMvcConfigurer {
                     CorsConfiguration corsConfiguration = new CorsConfiguration();
                     corsConfiguration.setAllowedOrigins(List.of(
                             "http://localhost:3000",
-                            "http://192.168.1.x",
+                            "http://localhost:8080",
+                            "http://localhost:80", 
                             "https://tvoj-domen.com",
                             "https://188.245.154.242",
                             "http://188.245.154.242"
