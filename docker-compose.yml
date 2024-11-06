@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  angular-app:
+    build:
+      context: ./Angular/reservation-app
+      dockerfile: Dockerfile
+    container_name: angular_frontend
+    ports:
+      - "3000:80"  # Angular frontend na portu 3000
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./reservation
+      dockerfile: Dockerfile
+    container_name: spring_backend
+    ports:
+      - "8080:8080"  # Backend na portu 8080
+    depends_on:
+      - database
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/rezervacije_db2  # Koristi naziv servisa "database" za povezivanje
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: "sql123"
+    volumes:
+      - ./slike:/app/slike  # Mapiraj slike u backend kontejneru
+    networks:
+      - app-network
+
+  database:
+    image: mysql:8
+    container_name: mysql_database
+    environment:
+      MYSQL_ROOT_PASSWORD: sql123
+      MYSQL_DATABASE: rezervacije_db2
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: sql123
+    ports:
+      - "3306:3306"  # Port baze
+    volumes:
+      - db_data:/var/lib/mysql  # Trajni volumen za MySQL podatke
+      - ./mysql-init-scripts:/docker-entrypoint-initdb.d  # Inicijalne SQL skripte
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db_data:

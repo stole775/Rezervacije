@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Izlazni imena za Docker image-ove
+FRONTEND_IMAGE="tvoj-frontend-image"
+BACKEND_IMAGE="tvoj-backend-image"
+
+# Prva faza: izgradnja frontend-a
+echo "Izgradnja frontend image-a..."
+cd frontend
+docker build -t $FRONTEND_IMAGE .
+cd ..
+
+# Druga faza: izgradnja backend-a
+echo "Izgradnja backend image-a..."
+cd backend
+docker build -t $BACKEND_IMAGE .
+cd ..
+
+echo "Izgradnja image-ova je završena."
+
+# Izvoz image-ova za kopiranje na server
+docker save -o frontend_image.tar $FRONTEND_IMAGE
+docker save -o backend_image.tar $BACKEND_IMAGE
+
+echo "Image-ovi su eksportovani kao frontend_image.tar i backend_image.tar."
