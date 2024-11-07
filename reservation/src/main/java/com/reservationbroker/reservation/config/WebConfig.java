@@ -20,7 +20,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true) // Omogućava @PreAuthorize anotacije
+@EnableMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
@@ -30,54 +30,27 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // Onemogući CSRF zaštitu jer koristimo JWT
                 .csrf(csrf -> csrf.disable())
-
-                // Konfiguriši CORS
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration corsConfiguration = new CorsConfiguration();
-                    corsConfiguration.setAllowedOrigins(List.of(
-                            "http://localhost:3000",
-                            "http://localhost:8080",
-                            "http://localhost:80", 
-                            "https://tvoj-domen.com",
-                            "https://188.245.154.242",
-                            "http://188.245.154.242"
-
-                    )); // Dozvoli frontend sa lokalnih i mrežnih IP adresa
+                    corsConfiguration.setAllowedOrigins(List.of("https://188.245.154.242"));
                     corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     corsConfiguration.setAllowedHeaders(List.of("*"));
                     corsConfiguration.setExposedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
-                    corsConfiguration.setAllowCredentials(true);//umesto allowedOrigins corsConfiguration.setAllowedOrigins(List.of("https://tvoj-domen.com"));
-
+                    corsConfiguration.setAllowCredentials(true);
                     return corsConfiguration;
                 }))
-
-                // Postavi politiku sesija na stateless
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-                // Postavi AuthenticationProvider
                 .authenticationProvider(authenticationProvider)
-
-                // Dodaj JWT filter pre UsernamePasswordAuthenticationFilter
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-
-                // Konfiguriši autorizaciju zahteva
                 .authorizeHttpRequests(auth -> auth
-                        // Dozvoli javni pristup za specifične endpoint-e
-                        .requestMatchers(HttpMethod.POST, "/auth/login", "/api/reservations/create", "/api/reservations/create-with-marketing").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/public/**", "/images/**").permitAll() // Allow public access to images
-
-                        // Svi ostali zahtevi zahtevaju autentifikaciju
-                        .anyRequest().authenticated()
-                )
-
-                // Onemogući Frame Options ako koristiš H2 konzolu ili slično
+                        .requestMatchers(HttpMethod.POST, "/auth/login", "/api/auth/login", "/api/reservations/create", "/api/reservations/create-with-marketing").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/public/**", "/images/**").permitAll()
+                        .anyRequest().authenticated())
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
         return http.build();
     }
-
-
 }
+
