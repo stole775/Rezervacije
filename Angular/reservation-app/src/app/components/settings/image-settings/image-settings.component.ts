@@ -28,6 +28,7 @@ export class ImageSettingsComponent {
   constructor(private sanitizer: DomSanitizer) {}
 
   safeUrl(url: string): SafeUrl {
+    console.log(url)
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
