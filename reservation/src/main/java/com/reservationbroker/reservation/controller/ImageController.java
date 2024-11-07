@@ -53,7 +53,8 @@ public class ImageController {
             // Construct the image URL
             String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
             String imageUrl = baseUrl +"/api"+ "/images/" + uniqueFilename;
-
+            System.out.println("Base URL: " + baseUrl);
+            System.out.println("imageUrl URL: " + imageUrl);
             response.put("message", "Image uploaded successfully.");
             response.put("imageUrl", imageUrl);
             return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -133,6 +134,7 @@ public class ImageController {
 
             // Construct full URLs
             String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+            System.out.println("Base URL: " + baseUrl);
             List<String> uploadedImageUrls = new ArrayList<>();
             for (String filename : uploadedImages) {
                 uploadedImageUrls.add(baseUrl +"/api"+ "/images/" + filename);
@@ -158,7 +160,7 @@ public class ImageController {
                     .orElseThrow(() -> new RuntimeException("Settings not found for company"));
 
             String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-
+            System.out.println("Base URL: " + baseUrl);
             // Prepare URLs for logo, background, and additional images
             if (setting.getImageUrlLogo() != null) {
                 imageUrls.put("logo", baseUrl +"/api"+ "/images/" + setting.getImageUrlLogo());
@@ -182,6 +184,37 @@ public class ImageController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    // Metoda za testiranje koja ispisuje i vraća listu svih datoteka u direktorijumu sa slikama
+    @GetMapping("/test/list-images") 
+    public ResponseEntity<Map<String, Object>> listAllImages() {
+        Map<String, Object> response = new HashMap<>();
+        List<String> imageFiles = new ArrayList<>();
+
+        try {
+            if (Files.exists(rootLocation)) {
+                // Prolazak kroz sve datoteke u direktorijumu
+                DirectoryStream<Path> directoryStream = Files.newDirectoryStream(rootLocation);
+                for (Path path : directoryStream) {
+                    if (!Files.isDirectory(path)) {
+                        imageFiles.add(path.getFileName().toString());
+                        System.out.println("Found file: " + path.getFileName());
+                    }
+                }
+                directoryStream.close();
+            } else {
+                response.put("error", "Directory does not exist.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+
+            response.put("files", imageFiles);
+            return ResponseEntity.ok(response);
+        } catch (IOException e) {
+            response.put("error", "Error occurred while listing images: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
 }
 
 
