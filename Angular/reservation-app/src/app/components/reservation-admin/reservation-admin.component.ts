@@ -18,6 +18,7 @@ export class ReservationAdminComponent implements OnInit {
   services: any[] = [];
   companies: any[] = [];
   workers: any[] = [];
+  availableSlots: any[] = [];
   isSAdmin: boolean = false;
   isCAdmin: boolean = false;
   isCustomer: boolean = false;
@@ -76,14 +77,26 @@ export class ReservationAdminComponent implements OnInit {
     }
 
     this.loadUserServices(this.userId!);
-    
+
     this.reservationForm.get('companyId')?.valueChanges.subscribe(companyId => {
       if (companyId) {
         this.loadWorkersByCompany(companyId);
       }
     });
-  }
+/*
+    this.reservationForm.get('workerId')?.valueChanges.subscribe(workerId => {
+      if (workerId && this.reservationForm.get('appointmentDate')?.value) {
+        this.loadAvailableSlots(workerId, this.reservationForm.get('appointmentDate')?.value);
+      }
+    });
 
+    this.reservationForm.get('appointmentDate')?.valueChanges.subscribe(appointmentDate => {
+      if (appointmentDate && this.reservationForm.get('workerId')?.value) {
+        this.loadAvailableSlots(this.reservationForm.get('workerId')?.value, appointmentDate);
+      }
+    });
+  }
+*/}
   loadUserServices(userId: number): void {
     this.reservationService.getUserServices(userId).subscribe(services => {
       this.services = services;
@@ -113,7 +126,13 @@ export class ReservationAdminComponent implements OnInit {
       this.workers = workers;
     });
   }
-
+/*
+  loadAvailableSlots(workerId: number, date: string): void {
+    this.reservationService.getAvailableSlots(workerId, date).subscribe(slots => {
+      this.availableSlots = slots;
+    });
+  }
+*/
   calculateEndTime(appointmentDate: string, vremeTrajanja: number): string {
     const appointment = new Date(appointmentDate);
     appointment.setMinutes(appointment.getMinutes() + vremeTrajanja);
