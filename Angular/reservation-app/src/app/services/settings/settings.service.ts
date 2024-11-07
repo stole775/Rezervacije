@@ -7,6 +7,8 @@ import { environment } from 'src/environment/environment';
   providedIn: 'root'
 })
 export class SettingsService {
+  //private apiUrl = `${environment.apiUrl}/settings`;
+  //private imageApiUrl = `${environment.apiUrl}/images`;
   private apiUrl = `${environment.apiUrl}/settings`;
   private imageApiUrl = `${environment.apiUrl}/images`; // For handling image uploads and deletions
 
