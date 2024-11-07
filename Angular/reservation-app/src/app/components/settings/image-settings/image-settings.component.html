@@ -10,7 +10,7 @@
       <div *ngIf="settings.imageUrlLogo; else noLogo">
         <div class="image-preview text-center">
           <img
-            [src]="safeUrl(settings.imageUrlLogo)"
+            [src]="settings.imageUrlLogo"
             class="img-thumbnail mb-2"
             alt="Logo"
             style="max-width: 150px;"
@@ -47,7 +47,7 @@
       <div *ngIf="settings.imageUrlBackground; else noBackground">
         <div class="image-preview text-center">
           <img
-            [src]="safeUrl(settings.imageUrlBackground)"
+            [src]="settings.imageUrlBackground"
             class="img-thumbnail mb-2"
             alt="Background Image"
             style="max-width: 150px;"
@@ -86,7 +86,7 @@
       <div class="d-flex flex-wrap">
         <div *ngFor="let image of images" class="image-preview me-2 mb-2">
           <img
-            [src]="safeUrl(image)"
+            [src]="image"
             class="img-thumbnail"
             alt="Image"
             style="max-width: 100px;"
