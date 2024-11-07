@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/settings")
+@RequestMapping("/api/settings")
 @AllArgsConstructor
 public class SettingsController {
 
     private final SettingsService settingsService;
 
     // Get settings by company ID
-    @GetMapping("/api/company/{companyId}")
+    @GetMapping("/company/{companyId}")
     @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN')")
     public ResponseEntity<?> getSettingsByCompanyId(@PathVariable Long companyId) {
         try {
