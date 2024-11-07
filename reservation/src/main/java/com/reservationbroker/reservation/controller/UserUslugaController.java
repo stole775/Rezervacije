@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user-usluge")
+@RequestMapping("/api/user-usluge")
 @AllArgsConstructor
 public class UserUslugaController {
 

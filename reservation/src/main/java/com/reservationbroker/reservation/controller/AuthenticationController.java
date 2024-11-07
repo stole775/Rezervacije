@@ -17,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @Tag(name = "Authentication Controller", description = "Upravljanje autentifikacijom")
 public class AuthenticationController {
 

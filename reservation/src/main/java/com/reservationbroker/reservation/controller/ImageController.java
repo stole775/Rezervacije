@@ -17,7 +17,7 @@ import java.util.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/images")
+@RequestMapping("/api/images")
 public class ImageController {
 
     private static final String UPLOAD_DIR = "./uploaded_images/";

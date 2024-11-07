@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/message")
+@RequestMapping("/api/message")
 @AllArgsConstructor
 public class MessageController {
 

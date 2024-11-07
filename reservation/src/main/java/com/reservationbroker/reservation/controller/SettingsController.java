@@ -18,7 +18,7 @@ public class SettingsController {
     private final SettingsService settingsService;
 
     // Get settings by company ID
-    @GetMapping("/company/{companyId}")
+    @GetMapping("/api/company/{companyId}")
     @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN')")
     public ResponseEntity<?> getSettingsByCompanyId(@PathVariable Long companyId) {
         try {

@@ -1,4 +1,4 @@
-package com.reservationbroker.reservation.controllers;
+package com.reservationbroker.reservation.controller;
 
 import com.reservationbroker.reservation.dto.CompanyDTO;
 import com.reservationbroker.reservation.entities.Company;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/companies")
+@RequestMapping("/api/api/companies")
 @AllArgsConstructor
 public class CompanyController {
 

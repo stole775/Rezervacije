@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/message-logs")
+@RequestMapping("/api/api/message-logs")
 @AllArgsConstructor
 public class MessageLogController {
 

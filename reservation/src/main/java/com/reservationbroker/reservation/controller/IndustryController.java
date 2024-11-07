@@ -1,4 +1,4 @@
-package com.reservationbroker.reservation.controllers;
+package com.reservationbroker.reservation.controller;
 
 import com.reservationbroker.reservation.entities.Industry;
 import com.reservationbroker.reservation.services.IndustryService;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/industries")
+@RequestMapping("/api/api/industries")
 @AllArgsConstructor
 public class IndustryController {
 
