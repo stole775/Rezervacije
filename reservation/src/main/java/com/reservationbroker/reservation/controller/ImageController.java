@@ -186,7 +186,7 @@ public class ImageController {
     }
 
     // Metoda za testiranje koja ispisuje i vraća listu svih datoteka u direktorijumu sa slikama
-    @GetMapping("/test/list-images") 
+    @GetMapping("/test/list-images")
     public ResponseEntity<Map<String, Object>> listAllImages() {
         Map<String, Object> response = new HashMap<>();
         List<String> imageFiles = new ArrayList<>();
