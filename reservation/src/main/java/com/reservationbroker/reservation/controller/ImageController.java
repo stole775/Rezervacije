@@ -52,7 +52,7 @@ public class ImageController {
 
             // Construct the image URL
             String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-            String imageUrl = baseUrl +"/api"+ "/images/" + uniqueFilename;
+            String imageUrl = baseUrl +"/api"+ "/uploaded_images/" + uniqueFilename;
             System.out.println("Base URL: " + baseUrl);
             System.out.println("imageUrl URL: " + imageUrl);
             response.put("message", "Image uploaded successfully.");
@@ -137,7 +137,7 @@ public class ImageController {
             System.out.println("Base URL: " + baseUrl);
             List<String> uploadedImageUrls = new ArrayList<>();
             for (String filename : uploadedImages) {
-                uploadedImageUrls.add(baseUrl +"/api"+ "/images/" + filename);
+                uploadedImageUrls.add(baseUrl +"/api"+ "/uploaded_images/" + filename);
             }
 
             response.put("message", "Images uploaded successfully.");
@@ -163,18 +163,18 @@ public class ImageController {
             System.out.println("Base URL: " + baseUrl);
             // Prepare URLs for logo, background, and additional images
             if (setting.getImageUrlLogo() != null) {
-                imageUrls.put("logo", baseUrl +"/api"+ "/images/" + setting.getImageUrlLogo());
+                imageUrls.put("logo", baseUrl +"/api"+ "/uploaded_images/" + setting.getImageUrlLogo());
             }
 
             if (setting.getImageUrlBackground() != null) {
-                imageUrls.put("background", baseUrl +"/api"+ "/images/" + setting.getImageUrlBackground());
+                imageUrls.put("background", baseUrl +"/api"+ "/uploaded_images/" + setting.getImageUrlBackground());
             }
 
             // Load additional images
             List<String> additionalImages = setting.getImageUrl10();  // This is the list of up to 10 images
             List<String> additionalImageUrls = new ArrayList<>();
             for (String filename : additionalImages) {
-                additionalImageUrls.add(baseUrl +"/api"+ "/images/" + filename);
+                additionalImageUrls.add(baseUrl +"/api"+ "/uploaded_images/" + filename);
             }
             imageUrls.put("additionalImages", additionalImageUrls);
 
