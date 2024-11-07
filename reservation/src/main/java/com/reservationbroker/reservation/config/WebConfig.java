@@ -33,7 +33,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration corsConfiguration = new CorsConfiguration();
-                    corsConfiguration.setAllowedOrigins(List.of(
+                    corsConfiguration.setAllowedOriginPatterns(List.of(
                             "https://rezervisime.com", // Dodajte vaš domen ovde
                             "https://www.rezervisime.com" // Dodajte www verziju
                     ));
