@@ -13,7 +13,6 @@ import { AssignRolesComponent } from './components/profile/assign-roles/assign-r
 import { ChangePasswordComponent } from './components/profile/change-password/change-password.component';
 import { EditProfileComponent } from './components/profile/edit-profile/edit-profile.component'; 
 import { FeedbackAdminComponent } from './components/feedback/feedback-admin/feedback-admin.component';
- 
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -33,7 +32,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
