@@ -36,7 +36,7 @@ public class Reservation {
     @Column(nullable = false, length = 20)
     private String phone;
 
-    @Column(nullable = false)
+    @Column(name = "appointment_date", nullable = false)
     private LocalDateTime appointmentDate;
 
     @Column(nullable = false)
@@ -48,8 +48,9 @@ public class Reservation {
     @Column(nullable = false)
     private Integer vremeTrajanja = 30;
 
-    @Column(nullable = false, insertable = false, updatable = false)
+    @Column(name = "vreme_zavrsetka", nullable = false, insertable = false, updatable = false)
     private LocalDateTime vremeZavrsetka;
+
 
     @CreationTimestamp
     private Timestamp createdAt;

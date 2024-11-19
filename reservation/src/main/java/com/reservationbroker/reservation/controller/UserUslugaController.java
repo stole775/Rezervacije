@@ -45,14 +45,16 @@ public class UserUslugaController {
 
         for (Object[] obj : uslugeList) {
             Map<String, Object> map = new HashMap<>();
-            map.put("id", obj[0]);
-            map.put("naziv", obj[1]);
-            map.put("cena", obj[2]);
+            map.put("id", obj[0]);        // ID usluge
+            map.put("naziv", obj[1]);    // Naziv usluge
+            map.put("cena", obj[2]);     // Cena usluge
+            map.put("trajanje", obj[3]); // Trajanje termina
             result.add(map);
         }
 
         return ResponseEntity.ok(result);
     }
+
 
     @PostMapping("/assign")
     public ResponseEntity<String> assignUslugaToUser(

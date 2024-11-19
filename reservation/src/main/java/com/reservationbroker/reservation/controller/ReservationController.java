@@ -13,7 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +70,7 @@ public class ReservationController {
                 // Proveri da li korisnik za kojeg se kreira rezervacija pripada istoj kompaniji kao CADMIN
                 Long principalUserId = reservation.getUser().getId(); // Implementiraj metodu za dobijanje ID-a prijavljenog korisnika
                 boolean isInCompany = reservationService.isUserInCompany(userId, principalUserId);
+
                 if (!isInCompany) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN).body("CADMIN can only create reservations for users within their company.");
                 }
@@ -161,5 +165,37 @@ public class ReservationController {
         }
         return ResponseEntity.ok(reservations);
     }
+
+    @GetMapping("/available-slots")
+    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'CUSTOMER')")
+    public ResponseEntity<List<String>> getAvailableSlots(
+            @RequestParam Long workerId,
+            @RequestParam String date,
+            @RequestParam int trajanje) {
+        try {
+            System.out.println("WorkerId: " + workerId);
+            System.out.println("Date: " + date);
+            System.out.println("Trajanje: " + trajanje);
+
+            LocalDate localDate = LocalDate.parse(date);
+            LocalTime defaultStartTime = LocalTime.of(8, 0);
+            LocalTime defaultEndTime = LocalTime.of(16, 0);
+
+            List<LocalTime> availableSlots = reservationService.getAvailableSlots(
+                    workerId, localDate, trajanje, defaultStartTime, defaultEndTime);
+
+            List<String> formattedSlots = new ArrayList<>();
+            for (LocalTime slot : availableSlots) {
+                formattedSlots.add(slot.toString());
+            }
+
+            return ResponseEntity.ok(formattedSlots);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(List.of("Error: " + e.getMessage()));
+        }
+    }
+
+
 
 }

@@ -1,37 +1,20 @@
-<!-- src/app/components/reservation-admin/reservation-admin.component.html -->
-
 <div class="container">
-  <!-- Naslov na osnovu uloge -->
   <h2 *ngIf="isSAdmin || isCAdmin; else userTitle">Admin - Upravljanje rezervacijama</h2>
   <ng-template #userTitle>
-    <h2 *ngIf="isCAdmin || isCustomer">Forma za dodavanje rezervacije</h2> <!-- Prikaz za CADMIN i Customer -->
+    <h2 *ngIf="isCAdmin || isCustomer">Forma za dodavanje rezervacije</h2>
   </ng-template>
 
-  <!-- Reservation Form -->
   <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
-   
-    <!-- Ime klijenta (vidljivo za sve) -->
+    <!-- Ime klijenta -->
     <div class="mb-3">
       <label for="name" class="form-label">Ime klijenta</label>
       <input type="text" class="form-control" id="name" formControlName="name" required />
     </div>
 
-    <!-- Telefon (vidljivo za sve) -->
+    <!-- Telefon -->
     <div class="mb-3">
       <label for="phone" class="form-label">Telefon</label>
       <input type="tel" class="form-control" id="phone" formControlName="phone" required />
-    </div>
-
-    <!-- Datum i vreme termina (vidljivo za sve) -->
-    <div class="mb-3">
-      <label for="appointmentDate" class="form-label">Datum i vreme termina</label>
-      <input type="datetime-local" class="form-control" id="appointmentDate" formControlName="appointmentDate" required />
-    </div>
-
-    <!-- Trajanje termina (vidljivo za SADMIN, CADMIN i Admin) -->
-    <div class="mb-3" *ngIf="isSAdmin || isCAdmin  ">
-      <label for="vremeTrajanja" class="form-label">Trajanje termina (min)</label>
-      <input type="number" class="form-control" id="vremeTrajanja" formControlName="vremeTrajanja" required />
     </div>
 
     <!-- Kompanija (samo za SADMIN) -->
@@ -45,7 +28,7 @@
       </select>
     </div>
 
-    <!-- Radnik (vidljivo za SADMIN i CADMIN) -->
+    <!-- Radnik -->
     <div class="mb-3" *ngIf="isSAdmin || isCAdmin">
       <label for="worker" class="form-label">Radnik</label>
       <select class="form-select" id="worker" formControlName="workerId" required>
@@ -55,8 +38,9 @@
         </option>
       </select>
     </div>
-     <!-- Usluga (vidljivo za sve) -->
-     <div class="mb-3">
+
+    <!-- Usluga -->
+    <div class="mb-3">
       <label for="usluga" class="form-label">Usluga</label>
       <select class="form-select" id="usluga" formControlName="uslugaId" required>
         <option value="" disabled>Izaberite uslugu</option>
@@ -65,13 +49,40 @@
         </option>
       </select>
     </div>
+
+    <!-- Vreme trajanja -->
+    <div class="mb-3">
+      <label for="vremeTrajanja" class="form-label">Trajanje termina (min)</label>
+      <input type="number" class="form-control" id="vremeTrajanja" formControlName="vremeTrajanja" required />
+    </div>
+
+    <!-- Datum termina -->
+    <div class="mb-3">
+      <label for="appointmentDate" class="form-label">Datum termina</label>
+      <input type="date" class="form-control" id="appointmentDate" formControlName="appointmentDate" required />
+    </div>
+
+    <!-- Dostupni termini -->
+    <div class="mb-3">
+      <label for="slot" class="form-label">Dostupni termini</label>
+      <div *ngIf="availableSlots.length > 0; else noSlots">
+        <div class="btn-group flex-wrap" role="group">
+          <button type="button" class="btn btn-outline-primary m-1"
+                  *ngFor="let slot of availableSlots" 
+                  [class.active]="reservationForm.get('slot')?.value === slot" 
+                  (click)="reservationForm.patchValue({ slot: slot })">
+            {{ slot }}
+          </button>
+        </div>
+      </div>
+      <ng-template #noSlots>
+        <p class="text-muted">Nema dostupnih termina za odabrani datum.</p>
+      </ng-template>
+    </div>
     
 
-    <!-- Submit dugme (vidljivo za sve) -->
     <button type="submit" class="btn btn-primary">
       {{ isCAdmin || isSAdmin ? 'Sačuvaj rezervaciju' : 'Dodaj termin' }}
     </button>
   </form>
 </div>
-
- 

@@ -4,7 +4,7 @@ import { ReservationService } from 'src/app/services/Reservation/reservation.ser
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { CompanyService } from 'src/app/services/company/company.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { Router } from '@angular/router';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-reservation-admin',
@@ -13,12 +13,15 @@ import { Router } from '@angular/router';
 })
 export class ReservationAdminComponent implements OnInit {
   reservationForm: FormGroup;
+
   userId: number | null = null;
   companyId: number | null = null;
+
   services: any[] = [];
   companies: any[] = [];
   workers: any[] = [];
-  availableSlots: any[] = [];
+  availableSlots: any[] = []; // Slobodni termini
+
   isSAdmin: boolean = false;
   isCAdmin: boolean = false;
   isCustomer: boolean = false;
@@ -31,13 +34,14 @@ export class ReservationAdminComponent implements OnInit {
     private userService: UserService
   ) {
     this.reservationForm = this.fb.group({
+      companyId: ['', Validators.required],
+      workerId: ['', Validators.required],
       uslugaId: ['', Validators.required],
-      name: ['', Validators.required],
-      phone: ['+3816', [Validators.required, Validators.pattern(/^(\+3816)\d{7,9}$/)]],
-      appointmentDate: ['', Validators.required],
+      appointmentDate: ['', Validators.required], // Samo datum
+      slot: ['', Validators.required], // Slobodan termin
       vremeTrajanja: [30, Validators.required],
-      companyId: [''],
-      workerId: ['', Validators.required]
+      name: ['', Validators.required],
+      phone: ['+3816', [Validators.required, Validators.pattern(/^(\+3816)\d{7,9}$/)]]
     });
   }
 
@@ -54,65 +58,69 @@ export class ReservationAdminComponent implements OnInit {
     this.companyId = this.authService.getCompanyId();
 
     if (this.isSAdmin) {
-      this.loadAllReservations();
       this.loadCompanies();
     } else if (this.isCAdmin && this.companyId) {
       this.loadWorkersByCompany(this.companyId);
-      this.loadUserReservations();
-    } else if (this.isCustomer) {
-      this.loadUserReservations();
     }
 
-    if (this.isCAdmin || this.isCustomer) {
-      this.reservationForm.patchValue({
-        companyId: this.companyId
-      });
+    this.onFieldChanges();
+  }
 
-      if (this.isCustomer) {
-        this.reservationForm.patchValue({
-          workerId: this.userId,
-          vremeTrajanja: 30
-        });
-      }
-    }
-
-    this.loadUserServices(this.userId!);
-
+  onFieldChanges(): void {
+    // Na promenu kompanije
     this.reservationForm.get('companyId')?.valueChanges.subscribe(companyId => {
       if (companyId) {
         this.loadWorkersByCompany(companyId);
+        this.resetField('workerId');
+        this.resetField('uslugaId');
+        this.services = [];
+        this.availableSlots = [];
       }
     });
-/*
+
+    // Na promenu radnika
     this.reservationForm.get('workerId')?.valueChanges.subscribe(workerId => {
-      if (workerId && this.reservationForm.get('appointmentDate')?.value) {
-        this.loadAvailableSlots(workerId, this.reservationForm.get('appointmentDate')?.value);
+      if (workerId) {
+        this.userId=workerId;
+        this.loadUserServicesByWorker(workerId);
+        this.resetField('uslugaId');
+        this.resetField('appointmentDate');
+        this.availableSlots = [];
       }
     });
 
-    this.reservationForm.get('appointmentDate')?.valueChanges.subscribe(appointmentDate => {
-      if (appointmentDate && this.reservationForm.get('workerId')?.value) {
-        this.loadAvailableSlots(this.reservationForm.get('workerId')?.value, appointmentDate);
+    // Na promenu usluge
+    this.reservationForm.get('uslugaId')?.valueChanges.subscribe(uslugaId => {
+      if (uslugaId) {
+        const selectedService = this.services.find(service => service.id === uslugaId);
+        if (selectedService) {
+          this.reservationForm.patchValue({ vremeTrajanja: selectedService.trajanje });
+        }
+        this.checkAvailability();
       }
     });
-  }
-*/}
-  loadUserServices(userId: number): void {
-    this.reservationService.getUserServices(userId).subscribe(services => {
-      this.services = services;
+
+    // Na promenu datuma termina
+    this.reservationForm.get('appointmentDate')?.valueChanges.subscribe(() => {
+      this.checkAvailability();
+    });
+
+    // Na promenu trajanja termina
+    this.reservationForm.get('vremeTrajanja')?.valueChanges.subscribe(() => {
+      this.checkAvailability();
     });
   }
 
-  loadAllReservations(): void {
-    this.reservationService.getAllReservations().subscribe(reservations => {
-      console.log('Sve rezervacije:', reservations);
-    });
-  }
+  checkAvailability(): void {
+    const workerId = this.reservationForm.get('workerId')?.value;
+    const trajanje = this.reservationForm.get('vremeTrajanja')?.value;
+    const date = this.reservationForm.get('appointmentDate')?.value;
 
-  loadUserReservations(): void {
-    this.reservationService.getUserReservations(this.userId!).subscribe(reservations => {
-      console.log(`Rezervacije za korisnika ${this.userId}:`, reservations);
-    });
+    if (workerId && trajanje && date) {
+      this.loadAvailableSlots(workerId, date, trajanje);
+    } else {
+      this.availableSlots = []; // Resetuje slobodne termine ako neki od uslova nije ispunjen
+    }
   }
 
   loadCompanies(): void {
@@ -126,58 +134,40 @@ export class ReservationAdminComponent implements OnInit {
       this.workers = workers;
     });
   }
-/*
-  loadAvailableSlots(workerId: number, date: string): void {
-    this.reservationService.getAvailableSlots(workerId, date).subscribe(slots => {
+
+  loadUserServicesByWorker(workerId: number): void {
+    this.reservationService.getUserServices(workerId).subscribe(services => {
+      this.services = services;
+    });
+  }
+
+  loadAvailableSlots(workerId: number, date: string, trajanje: number): void {
+    this.reservationService.getAvailableSlots(workerId, date, trajanje).subscribe(slots => {
       this.availableSlots = slots;
     });
   }
-*/
-  calculateEndTime(appointmentDate: string, vremeTrajanja: number): string {
-    const appointment = new Date(appointmentDate);
-    appointment.setMinutes(appointment.getMinutes() + vremeTrajanja);
-    return appointment.toISOString().slice(0, 16);
+
+  private resetField(fieldName: string): void {
+    this.reservationForm.patchValue({ [fieldName]: '' });
   }
 
   onSubmit(): void {
     if (this.reservationForm.valid) {
       const formValue = this.reservationForm.value;
-      const reservationData: any = {
+      const reservationData = {
         usluga: { id: formValue.uslugaId },
         name: formValue.name,
         phone: formValue.phone,
-        appointmentDate: formValue.appointmentDate,
-        vremeTrajanja: formValue.vremeTrajanja,
-        vremeZavrsetka: this.calculateEndTime(formValue.appointmentDate, formValue.vremeTrajanja),
-        confirmed: this.isSAdmin,
-        user: { id: this.userId }
+        appointmentDate: `${formValue.appointmentDate}T${formValue.slot}`,
+        user: { id: this.userId },
+        companyId: formValue.companyId,
+        worker: { id: formValue.workerId }
       };
-
-      if (this.isSAdmin) {
-        reservationData.companyId = formValue.companyId;
-        reservationData.worker = { id: formValue.workerId };
-      } else if (this.isCAdmin) {
-        reservationData.companyId = this.companyId;
-        reservationData.worker = { id: formValue.workerId };
-      } else if (this.isCustomer) {
-        reservationData.companyId = this.companyId;
-        reservationData.worker = { id: this.userId };
-        reservationData.vremeTrajanja = 30;
-        reservationData.vremeZavrsetka = this.calculateEndTime(formValue.appointmentDate, 30);
-      }
 
       this.reservationService.createReservation(reservationData).subscribe({
         next: () => {
-          alert(this.isSAdmin ? 'Rezervacija uspešno kreirana' : 'Termin uspešno dodan');
-          this.reservationForm.reset({
-            uslugaId: '',
-            name: '',
-            phone: '',
-            appointmentDate: '',
-            vremeTrajanja: 30,
-            companyId: this.isSAdmin ? '' : this.companyId,
-            workerId: this.isCustomer ? this.userId : ''
-          });
+          alert('Rezervacija uspešno kreirana');
+          this.reservationForm.reset();
         },
         error: () => {
           alert('Došlo je do greške prilikom kreiranja rezervacije.');

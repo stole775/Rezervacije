@@ -47,18 +47,21 @@ public class WebConfig {
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOriginPattern("https://rezervisime.com");
-        configuration.addAllowedOriginPattern("https://www.rezervisime.com");
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Cache-Control", "X-Requested-With"));
-        configuration.setExposedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
-        configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L); // 1 sat
+public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.addAllowedOrigin("https://rezervisime.com");
+    configuration.addAllowedOrigin("https://www.rezervisime.com");
+   // configuration.addAllowedOrigin("http://localhost:3000");
+    //configuration.addAllowedOrigin("http://localhost:4200");
+    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+    configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Cache-Control", "X-Requested-With"));
+    configuration.setExposedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+    configuration.setAllowCredentials(true);
+    configuration.setMaxAge(3600L); // 1 sat
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+}
+
 }

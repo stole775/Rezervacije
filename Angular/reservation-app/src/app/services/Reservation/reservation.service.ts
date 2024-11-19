@@ -36,9 +36,17 @@ getUserServices(userId: number): Observable<any> {
   return this.http.get(`${environment.apiUrl}/user-usluge/user/${userId}/usluge2`);
 }
  
+getAvailableSlots(workerId: number, date: string, trajanje: number): Observable<string[]> {
+  return this.http.get<string[]>(`${environment.apiUrl}/reservations/available-slots`, {
+    params: { workerId, date, trajanje }
+  });
+}
+
+
 getUserReservationsByCompanyid(companyId: number): Observable<any> {
   return this.http.get(`${environment.apiUrl}/reservations/user/companyId/${companyId}`);
 }
+
 
 
  

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,4 +20,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     // Provera dostupnosti termina
     List<Reservation> findByUslugaIdAndAppointmentDateLessThanEqualAndVremeZavrsetkaGreaterThanEqual(
             Long uslugaId, LocalDateTime endTime, LocalDateTime startTime);
+
+    @Query("SELECT r FROM Reservation r WHERE r.user.id = :workerId AND r.appointmentDate >= :startDate AND r.appointmentDate <= :endDate")
+    List<Reservation> findByWorkerIdAndDate(
+            @Param("workerId") Long workerId,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate);
+
 }

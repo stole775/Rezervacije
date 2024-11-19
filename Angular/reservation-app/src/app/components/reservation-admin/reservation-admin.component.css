@@ -1,0 +1,11 @@
+.btn-group.flex-wrap {
+    display: flex;
+    flex-wrap: wrap; /* Omogućava prelamanje u sledeći red */
+    gap: 0.5rem; /* Razmak između dugmadi */
+    justify-content: flex-start; /* Dugmad se poravnavaju levo (možete promeniti u center ili right ako je potrebno) */
+  }
+  
+  .btn-group button {
+    white-space: nowrap; /* Sprečava prelamanje teksta unutar dugmadi */
+  }
+  
