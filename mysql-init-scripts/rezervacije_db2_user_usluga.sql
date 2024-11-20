@@ -21,6 +21,8 @@ CREATE TABLE `user_usluga` (
 -- Insert data into table `user_usluga`
 -- ------------------------------------------------------
 
+
+
 LOCK TABLES `user_usluga` WRITE;
 INSERT INTO `user_usluga` (`user_id`, `usluga_id`, `cena`, `trajanje`) VALUES
 (1, 1, 2, 15),       -- Korisnik 1, Usluga 1, Cena 2, Trajanje 15 min
