@@ -27,8 +27,7 @@ services:
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: "sql123"
     volumes:
-      - C:/Users/mladen.stolic/Desktop/Mladen 1/SMS/smsPoruke/smsPoruke:/app/slike  # Mapiraj slike u backend kontejneru
-      #- ./slike:/app/slike  # Mapiraj slike u backend kontejneru
+      - /var/www/rezervacije/uploaded_images:/app/slike:ro  # Mapiraj slike sa servera na backend kontejner (u read-only režimu)
     networks:
       - app-network
 
