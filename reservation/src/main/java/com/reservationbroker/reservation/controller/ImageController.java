@@ -106,7 +106,7 @@ public class ImageController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
-    
+
     // Remove the serveFile method to avoid conflicts with static resource handler
 
     // Upload multiple images and save them in the filesystem
