@@ -33,11 +33,12 @@ public class UserUslugaController {
         List<Usluge> usluge = userUslugaService.getUslugeByUserId(userId);
         return ResponseEntity.ok(usluge);
     }
-    @GetMapping("/user/{userId}/usluge")
+    /*@GetMapping("/user/{userId}/usluge")
     public ResponseEntity<List<Object[]>> getUserUsluge(@PathVariable Long userId) {
         List<Object[]> usluge = userUslugaService.findUslugeByUserId(userId);
         return ResponseEntity.ok(usluge);
-    }
+    }*/
+
     @GetMapping("/user/{userId}/usluge2")
     public ResponseEntity<List<Map<String, Object>>> getUserUsluge2(@PathVariable Long userId) {
         List<Object[]> uslugeList = userUslugaRepository.findUslugeByUserId(userId);
