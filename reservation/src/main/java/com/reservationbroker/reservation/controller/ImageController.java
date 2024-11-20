@@ -31,14 +31,11 @@ public class ImageController {
                                                            @RequestParam("companyId") Long companyId,
                                                            @RequestParam("columnName") String columnName) {
         Map<String, Object> response = new HashMap<>();
-        try { 
+        try {
+            // Ensure upload directory exists
             if (!Files.exists(rootLocation)) {
-                try {
-                    Files.createDirectories(rootLocation);
-                    System.out.println("Created directory: " + rootLocation.toAbsolutePath());
-                } catch (IOException e) {
-                    throw new RuntimeException("Could not create upload directory: " + rootLocation.toAbsolutePath(), e);
-                }
+                Files.createDirectories(rootLocation);
+                System.out.println("Created directory: " + rootLocation.toAbsolutePath());
             }
 
             // Generate unique filename
@@ -46,27 +43,33 @@ public class ImageController {
             String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
             String uniqueFilename = "company_" + companyId + "_" + UUID.randomUUID().toString() + extension;
 
-            // Save the file to the filesystem
+            // Save file to the filesystem
             Path targetLocation = rootLocation.resolve(uniqueFilename);
             System.out.println("Saving file to: " + targetLocation.toAbsolutePath());
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-            // Save the filename in the database
+            // Save filename in the database
             settingsService.saveImageUrl(companyId, uniqueFilename, columnName);
 
-            // Construct the image URL
+            // Construct the image URL dynamically based on API path
             String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-            String imageUrl = baseUrl +"/uploaded_images/" + uniqueFilename;
-            System.out.println("Base URL: " + baseUrl);
-            System.out.println("imageUrl URL: " + imageUrl);
+            String imageUrl = baseUrl + "/api/uploaded_images/" + uniqueFilename;
+
+            // Log upload details
+            System.out.println("Uploaded image: " + uniqueFilename);
+            System.out.println("Image URL: " + imageUrl);
+
             response.put("message", "Image uploaded successfully.");
             response.put("imageUrl", imageUrl);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (IOException e) {
+            // Log error details
+            System.err.println("Error during image upload: " + e.getMessage());
             response.put("error", "Error occurred while uploading the image: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
 
     // Delete image and remove the filename from the settings table
     @DeleteMapping("/delete/{filename}")
@@ -74,29 +77,36 @@ public class ImageController {
     public ResponseEntity<Map<String, Object>> deleteImage(@PathVariable String filename, @RequestParam("companyId") Long companyId) {
         Map<String, Object> response = new HashMap<>();
 
-        // Remove any leading or trailing slashes from the filename
+        // Remove leading/trailing slashes and resolve path
         filename = filename.replaceAll("^/+", "").replaceAll("/+$", "");
-
         Path path = rootLocation.resolve(filename);
 
         if (Files.exists(path)) {
             try {
+                // Delete file from the filesystem
                 Files.delete(path);
 
-                settingsService.removeImageUrl(companyId, filename);  // Remove the filename from the database
+                // Remove filename from the database
+                settingsService.removeImageUrl(companyId, filename);
 
+                // Log deletion details
+                System.out.println("Deleted image: " + filename);
                 response.put("message", "Image deleted successfully.");
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             } catch (IOException e) {
+                // Log error details
+                System.err.println("Error during image deletion: " + e.getMessage());
                 response.put("error", "Error occurred while deleting the image: " + e.getMessage());
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
             }
         } else {
+            // Log missing file details
+            System.err.println("Attempted to delete non-existent image: " + filename);
             response.put("error", "Image not found.");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
-
+    
     // Remove the serveFile method to avoid conflicts with static resource handler
 
     // Upload multiple images and save them in the filesystem
@@ -141,7 +151,7 @@ public class ImageController {
             System.out.println("Base URL: " + baseUrl);
             List<String> uploadedImageUrls = new ArrayList<>();
             for (String filename : uploadedImages) {
-                uploadedImageUrls.add(baseUrl + "/uploaded_images/" + filename);
+                uploadedImageUrls.add(baseUrl +"/api"+ "/uploaded_images/" + filename);
             }
 
             response.put("message", "Images uploaded successfully.");
@@ -167,18 +177,18 @@ public class ImageController {
             System.out.println("Base URL: " + baseUrl);
             // Prepare URLs for logo, background, and additional images
             if (setting.getImageUrlLogo() != null) {
-                imageUrls.put("logo", baseUrl + "/uploaded_images/" + setting.getImageUrlLogo());
+                imageUrls.put("logo", baseUrl +"/api"+ "/uploaded_images/" + setting.getImageUrlLogo());
             }
 
             if (setting.getImageUrlBackground() != null) {
-                imageUrls.put("background", baseUrl + "/uploaded_images/" + setting.getImageUrlBackground());
+                imageUrls.put("background", baseUrl +"/api"+ "/uploaded_images/" + setting.getImageUrlBackground());
             }
 
             // Load additional images
             List<String> additionalImages = setting.getImageUrl10();  // This is the list of up to 10 images
             List<String> additionalImageUrls = new ArrayList<>();
             for (String filename : additionalImages) {
-                additionalImageUrls.add(baseUrl + "/uploaded_images/" + filename);
+                additionalImageUrls.add(baseUrl +"/api"+ "/uploaded_images/" + filename);
             }
             imageUrls.put("additionalImages", additionalImageUrls);
 
