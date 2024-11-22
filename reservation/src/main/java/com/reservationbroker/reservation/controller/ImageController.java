@@ -20,7 +20,8 @@ import java.util.*;
 @RequestMapping("/api/images")
 public class ImageController {
 
-    private static final String UPLOAD_DIR = "/app/slike/";
+    /*local*/private static final String UPLOAD_DIR = "./uploaded_images/";
+    ///*prod*/private static final String UPLOAD_DIR = "/app/slike/";
     private final Path rootLocation = Paths.get(UPLOAD_DIR);
     private final SettingsService settingsService;
 

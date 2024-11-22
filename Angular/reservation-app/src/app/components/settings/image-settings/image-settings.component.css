@@ -1,0 +1,65 @@
+/* CSS for Image Settings */
+
+/* Style the image preview container */
+.image-preview {
+    position: relative;
+    width: 150px; /* Ensures all images are the same size */
+    height: 150px;
+    overflow: hidden;
+    border: 2px solid #ddd; /* Adds a border for better visibility */
+    border-radius: 8px; /* Rounded corners */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+    margin: 5px; /* Space between image previews */
+  }
+  
+  /* Ensure the image fits perfectly inside the preview container */
+  .image-preview img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* Ensures the image fills the container while maintaining aspect ratio */
+  }
+  
+  /* Style the delete button */
+  .image-preview button {
+    position: absolute;
+    bottom: 5px; /* Position at the bottom of the container */
+    left: 5px;
+    right: 5px;
+    padding: 5px;
+    font-size: 12px;
+    color: #fff;
+    background-color: #dc3545; /* Bootstrap's danger color */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0.8; /* Slightly transparent for better aesthetics */
+  }
+  
+  .image-preview button:hover {
+    opacity: 1; /* Fully opaque on hover */
+  }
+  
+  /* For the additional images container */
+  .d-flex.flex-wrap {
+    gap: 10px; /* Adds space between flex items */
+  }
+  
+  /* Input field styles */
+  input[type="file"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* Button styles */
+  button {
+    transition: background-color 0.3s, opacity 0.3s;
+  }
+  
+  button.btn-primary:hover {
+    background-color: #0056b3; /* Darker shade of blue for primary button */
+  }
+  
