@@ -20,7 +20,7 @@ import java.util.*;
 @RequestMapping("/api/images")
 public class ImageController {
 
-    private static final String UPLOAD_DIR = "./uploaded_images/";
+    private static final String UPLOAD_DIR = "/app/slike/";
     private final Path rootLocation = Paths.get(UPLOAD_DIR);
     private final SettingsService settingsService;
 
@@ -42,6 +42,10 @@ public class ImageController {
             String originalFilename = Objects.requireNonNull(file.getOriginalFilename());
             String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
             String uniqueFilename = "company_" + companyId + "_" + UUID.randomUUID().toString() + extension;
+
+            if (!Files.isWritable(rootLocation)) {
+                System.err.println("Root location is not writable: " + rootLocation.toAbsolutePath());
+            }
 
             // Save file to the filesystem
             Path targetLocation = rootLocation.resolve(uniqueFilename);
@@ -83,6 +87,8 @@ public class ImageController {
 
         if (Files.exists(path)) {
             try {
+                System.out.println("Attempting to delete file: " + path.toAbsolutePath());
+
                 // Delete file from the filesystem
                 Files.delete(path);
 
