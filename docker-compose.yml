@@ -27,7 +27,7 @@ services:
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: "sql123"
     volumes:
-      - /var/www/rezervacije/uploaded_images:/app/slike  # Mapiraj slike sa servera na backend kontejner 
+      - ./uploaded_images:/app/slike  # Mapiraj slike sa servera na backend kontejner  
     networks:
       - app-network
 
