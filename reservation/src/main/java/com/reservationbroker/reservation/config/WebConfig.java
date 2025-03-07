@@ -49,7 +49,7 @@ public class WebConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("https://rezervisime.com", "https://*.rezervisime.com", "http://localhost:*"));
+        configuration.setAllowedOriginPatterns(List.of("https://rezervisime.com", "https://*.rezervisime.com", "http://localhost:*","http://93.87.35.130:*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Cache-Control", "X-Requested-With"));
         configuration.setExposedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
