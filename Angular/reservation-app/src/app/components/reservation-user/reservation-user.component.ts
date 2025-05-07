@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-reservation-user',
   templateUrl: './reservation-user.component.html',
-  styleUrls: ['./reservation-user.component.scss']
+  styleUrls: ['./reservation-user.component.css']
 })
 export class ReservationUserComponent implements OnInit {
   settings!: Settings;

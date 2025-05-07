@@ -4,7 +4,7 @@ import { ReservationService } from 'src/app/services/Reservation/reservation.ser
 @Component({
   selector: 'app-select-service',
   templateUrl: './select-service.component.html',
-  styleUrls: ['./select-service.component.scss']
+  styleUrls: ['./select-service.component.css']
 })
 export class SelectServiceComponent implements OnInit {
   @Input() worker!: any;
