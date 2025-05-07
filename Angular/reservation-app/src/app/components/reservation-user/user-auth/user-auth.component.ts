@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 @Component({
   selector: 'app-user-auth',
   templateUrl: './user-auth.component.html',
-  styleUrls: ['./user-auth.component.scss']
+  styleUrls: ['./user-auth.component.css']
 })
 export class UserAuthComponent {
   @Input() buttonShape: 'PILL' | 'SQUARE' = 'PILL';
