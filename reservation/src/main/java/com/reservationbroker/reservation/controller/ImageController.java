@@ -3,6 +3,7 @@ package com.reservationbroker.reservation.controller;
 import com.reservationbroker.reservation.entities.Setting;
 import com.reservationbroker.reservation.services.SettingsService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,24 +11,42 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/api/images")
 public class ImageController {
-
-    ///*local*/private static final String UPLOAD_DIR = "./uploaded_images/";
-    /*prod*/private static final String UPLOAD_DIR = "/app/slike/";
-    private final Path rootLocation = Paths.get(UPLOAD_DIR);
     private final SettingsService settingsService;
+
+    ///*local*
+    // private static final String UPLOAD_DIR = "./uploaded_images/";
+    /*prod*/
+    //private static final String UPLOAD_DIR = "/app/slike/";
+    //private final Path rootLocation = Paths.get(UPLOAD_DIR);
+
+    private Path rootLocation;
+    private String url_nastavak="";
+
+    @Value("${app.env}")
+    public void setUploadPath(String env) {
+        if ("prod".equalsIgnoreCase(env)) {
+            this.rootLocation = Paths.get("/app/slike/");
+            url_nastavak="/api/uploaded_images/";
+        } else {
+            this.rootLocation = Paths.get("./uploaded_images/");
+            url_nastavak="/images/";
+        }
+    }
+
 
     // Upload single image and save the filename in the settings table
     @PostMapping("/upload")
-    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN')")
+    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'WORKER', 'CUSTOMER')")
     public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("file") MultipartFile file,
                                                            @RequestParam("companyId") Long companyId,
                                                            @RequestParam("columnName") String columnName) {
@@ -58,7 +77,8 @@ public class ImageController {
 
             // Construct the image URL dynamically based on API path
             String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-            String imageUrl = baseUrl + "/api/uploaded_images/" + uniqueFilename;
+            String imageUrl = baseUrl + url_nastavak + uniqueFilename;
+
 
             // Log upload details
             System.out.println("Uploaded image: " + uniqueFilename);
@@ -78,7 +98,7 @@ public class ImageController {
 
     // Delete image and remove the filename from the settings table
     @DeleteMapping("/delete/{filename}")
-    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN')")
+    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'WORKER', 'CUSTOMER')")
     public ResponseEntity<Map<String, Object>> deleteImage(@PathVariable String filename, @RequestParam("companyId") Long companyId) {
         Map<String, Object> response = new HashMap<>();
 
@@ -118,7 +138,7 @@ public class ImageController {
 
     // Upload multiple images and save them in the filesystem
     @PostMapping(value = "/uploadMultiple", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN')")
+    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'WORKER', 'CUSTOMER')")
     public ResponseEntity<Map<String, Object>> uploadMultipleImages(@RequestParam("files") MultipartFile[] files,
                                                                     @RequestParam("companyId") Long companyId) {
         Map<String, Object> response = new HashMap<>();
@@ -184,18 +204,18 @@ public class ImageController {
             System.out.println("Base URL: " + baseUrl);
             // Prepare URLs for logo, background, and additional images
             if (setting.getImageUrlLogo() != null) {
-                imageUrls.put("logo", baseUrl +"/api"+ "/uploaded_images/" + setting.getImageUrlLogo());
+                imageUrls.put("logo", baseUrl +url_nastavak + setting.getImageUrlLogo());
             }
 
             if (setting.getImageUrlBackground() != null) {
-                imageUrls.put("background", baseUrl +"/api"+ "/uploaded_images/" + setting.getImageUrlBackground());
+                imageUrls.put("background", baseUrl +url_nastavak + setting.getImageUrlBackground());
             }
 
             // Load additional images
             List<String> additionalImages = setting.getImageUrl10();  // This is the list of up to 10 images
             List<String> additionalImageUrls = new ArrayList<>();
             for (String filename : additionalImages) {
-                additionalImageUrls.add(baseUrl +"/api"+ "/uploaded_images/" + filename);
+                additionalImageUrls.add(baseUrl +url_nastavak + filename);
             }
             imageUrls.put("additionalImages", additionalImageUrls);
 

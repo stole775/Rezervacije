@@ -1,8 +1,11 @@
 package com.reservationbroker.reservation.services.impl;
 
+import com.reservationbroker.reservation.entities.Company;
 import com.reservationbroker.reservation.entities.Setting;
+import com.reservationbroker.reservation.repositories.CompanyRepository;
 import com.reservationbroker.reservation.repositories.SettingsRepository;
 import com.reservationbroker.reservation.services.SettingsService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import java.util.Optional;
 public class SettingsServiceImpl implements SettingsService {
 
     private final SettingsRepository settingsRepository;
+    private final CompanyRepository companyRepository;
 
     @Override
     public Optional<Setting> getSettingsByCompanyId(Long companyId) {
@@ -119,4 +123,15 @@ public class SettingsServiceImpl implements SettingsService {
                 .map(Setting::getNumberOfImages)
                 .orElseThrow(() -> new RuntimeException("Settings not found with companyId: " + companyId));
     }
+
+    @Override
+    public Optional<Setting> getSettingsByCompanyName(String companyName) {
+        Optional<Company> company = companyRepository.findByName(companyName);
+        if (company.isPresent()) {
+            return getSettingsByCompanyId(company.get().getId());
+        } else {
+            throw new EntityNotFoundException("Company not found: " + companyName);
+        }
+    }
+
 }

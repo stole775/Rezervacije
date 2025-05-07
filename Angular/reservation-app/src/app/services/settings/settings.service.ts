@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs'; 
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environment/environment';
+import { Settings } from 'src/app/components/settings/Settings';
 
 @Injectable({
   providedIn: 'root'
@@ -68,4 +69,14 @@ export class SettingsService {
       tap(response => console.log('Odgovor za getImages:', response))
     );
   }
+
+  getSettingsByCompanyName(companyName: string): Observable<Settings> {
+    const cleanCompanyName = companyName.trim();
+    console.log(`Company name used in API call: [${companyName}]`);
+
+    return this.http.get<Settings>(`${this.apiUrl}/company-name/${encodeURIComponent(cleanCompanyName)}`);
+
+  }
+  
+  
 }

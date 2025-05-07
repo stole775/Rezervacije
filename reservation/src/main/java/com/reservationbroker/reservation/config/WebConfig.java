@@ -39,7 +39,7 @@ public class WebConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/auth/login", "/api/auth/login", "/api/reservations/create", "/api/reservations/create-with-marketing").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/public/**", "/images/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/public/**", "/images/**", "/api/uploaded_images/**", "/uploaded_images/**","/api/settings/company-name/**").permitAll()
                         .anyRequest().authenticated())
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
@@ -48,8 +48,8 @@ public class WebConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("https://rezervisime.com", "https://*.rezervisime.com", "http://localhost:*","http://93.87.35.130:*"));
+        CorsConfiguration configuration = new CorsConfiguration();//za prod izmena putanja ispod
+        configuration.setAllowedOriginPatterns(List.of("https://rezervisime.com", "https://*.rezervisime.com", "http://localhost:*","http://localhost:4200","http://93.87.35.130:*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Cache-Control", "X-Requested-With"));
         configuration.setExposedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));

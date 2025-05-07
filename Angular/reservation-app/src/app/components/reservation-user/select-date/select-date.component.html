@@ -1,0 +1,32 @@
+<div class="calendar d-flex flex-wrap mb-4">
+    <button
+      *ngFor="let date of calendarDays"
+      class="calendar-day me-2 mb-2"
+      [disabled]="!isDateSelectable(date)"
+      (click)="selectDate(date)"
+      [ngClass]="{
+        selected: formatDate(date) === selectedDate,
+        'btn-pill': buttonShape === 'PILL',
+        'btn-square': buttonShape === 'SQUARE'
+      }"
+    >
+      {{ date | date: 'EEE dd.MM.' }}
+    </button>
+  </div>
+  
+  <div *ngIf="loadingSlots">Učitavam termine...</div>
+  
+  <div *ngIf="!loadingSlots && availableSlots.length > 0" class="slots d-flex flex-wrap">
+    <button
+      *ngFor="let slot of availableSlots"
+      (click)="selectTime(slot)"
+      class="btn btn-outline-success me-2 mb-2"
+    >
+      {{ slot }}
+    </button>
+  </div>
+  
+  <div *ngIf="!loadingSlots && selectedDate && availableSlots.length === 0">
+    <p>Nema dostupnih termina za ovaj datum.</p>
+  </div>
+  

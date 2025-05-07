@@ -1,0 +1,15 @@
+<div class="text-center">
+    <h4>Izaberite radnika</h4>
+    <div *ngIf="loading">Učitavanje...</div>
+    <div class="d-flex flex-wrap justify-content-center mt-3" *ngIf="!loading">
+      <button
+        *ngFor="let worker of workers"
+        class="btn m-2"
+        [ngClass]="buttonShape.toLowerCase()"
+        (click)="selectWorker(worker)"
+      >
+        {{ worker.name }}
+      </button>
+    </div>
+  </div>
+  

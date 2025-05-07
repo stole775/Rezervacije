@@ -1,7 +1,7 @@
 <div class="container">
   <h2 *ngIf="isSAdmin || isCAdmin; else userTitle">Admin - Upravljanje rezervacijama</h2>
   <ng-template #userTitle>
-    <h2 *ngIf="isCAdmin || isCustomer">Forma za dodavanje rezervacije</h2>
+    <h2 *ngIf="isCAdmin || isUSER">Forma za dodavanje rezervacije</h2>
   </ng-template>
 
   <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">

@@ -102,4 +102,14 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public List<User> getAllWorkers() {
+        return userRepository.findAllByRole("WORKER");
+    }
+
+    public List<User> getWorkersByCompanyId(Long companyId) {
+        return userRepository.findWorkersByCompanyId( companyId);
+    }
+
+
 }

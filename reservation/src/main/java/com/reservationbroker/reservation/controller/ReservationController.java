@@ -38,7 +38,7 @@ public class ReservationController {
      * - CUSTOMER može da kreira samo svoje rezervacije.
      */
     @PostMapping
-    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'CUSTOMER')")
+    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'CUSTOMER', 'WORKER')")
     public ResponseEntity<?> createReservation(@RequestBody Reservation reservation) {
         try {
             // Log incoming reservation object
@@ -167,7 +167,7 @@ public class ReservationController {
     }
 
     @GetMapping("/available-slots")
-    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'CUSTOMER')")
+    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'CUSTOMER', 'WORKER')")
     public ResponseEntity<List<String>> getAvailableSlots(
             @RequestParam Long workerId,
             @RequestParam String date,

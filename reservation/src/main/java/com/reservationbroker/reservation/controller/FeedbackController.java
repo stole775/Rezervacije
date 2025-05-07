@@ -23,7 +23,7 @@ public class FeedbackController {
 
     // Create feedback and capture the full User object from the authenticated user
     @PostMapping
-    @PreAuthorize("hasRole('CUSTOMER') or hasRole('SADMIN') or hasRole('CADMIN')")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('SADMIN') or hasRole('CADMIN') or hasRole( 'WORKER')" )
     public ResponseEntity<Feedback> createFeedback(@RequestBody Feedback feedback, Authentication authentication) {
         // Extract username (or ID) from authentication and fetch the user object
         String username = authentication.getName();
@@ -68,7 +68,7 @@ public class FeedbackController {
 
     // Update feedback (can be done by the original user or admins)
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('CUSTOMER') or hasRole('SADMIN') or hasRole('CADMIN')")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('SADMIN') or hasRole('CADMIN') or hasRole( 'WORKER')")
     public ResponseEntity<Feedback> updateFeedback(@PathVariable Integer id, @RequestBody Feedback feedback, Authentication authentication) {
         Long userId = (Long) authentication.getPrincipal();
         Optional<Feedback> existingFeedback = feedbackService.getFeedbackById(id);

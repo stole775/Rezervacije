@@ -1,5 +1,6 @@
 // settings.model.ts
 export class Settings {
+  
     numberOfMessages: number = 1;
     hoursBeforeFirstMsg: number = 0;
     hoursBeforeSecondMsg?: number;
@@ -17,7 +18,7 @@ export class Settings {
     theme: string = 'LIGHT';
     imageUrlLogo?: string;
     imageUrlBackground?: string;
-    // ... other properties
+    companyId!: number; 
   }
    
  

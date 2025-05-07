@@ -17,4 +17,7 @@ public interface UserService {
     User updateUser(User user);
     List<User> getUsersByCompanyId(Long companyId);
     List<User> getBlockedUsers(Long companyId, String role);
+    List<User> getAllWorkers();
+    public List<User> getWorkersByCompanyId(Long companyId) ;
+
 }

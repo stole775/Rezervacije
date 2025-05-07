@@ -60,7 +60,7 @@ public class UserController {
 
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'CUSTOMER')")
+    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'CUSTOMER', 'WORKER')")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
         try {
             // Pronađi postojećeg korisnika po ID-u
@@ -136,7 +136,24 @@ public class UserController {
     }
 
 
+    @GetMapping("/users/workers")
+    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'CUSTOMER', 'WORKER')")
+    public ResponseEntity<List<User>> getAllWorkers() {
+        List<User> workers = userService.getAllWorkers();
+        for(User user : workers) {
+            user.setPassword("****");
+        }
+        return ResponseEntity.ok(workers);
+    }
 
+    @GetMapping("/users/workersByCompany")
+    public ResponseEntity<List<User>> getWorkersByCompanyId(@RequestParam Long companyId) {
+        List<User> workers = userService.getWorkersByCompanyId(companyId);
+        for(User user : workers) {
+            user.setPassword("****");
+        }
+        return ResponseEntity.ok(workers);
+    }
 
 
 
@@ -150,7 +167,7 @@ public class UserController {
         return ResponseEntity.ok(userDTOs);
     }
     @PostMapping("/change-password")
-    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'CUSTOMER')")
+    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'CUSTOMER', 'WORKER')")
     public ResponseEntity<Map<String, String>> changePassword(@RequestBody Map<String, String> passwordData) {
         Long userId = Long.parseLong(passwordData.get("userId"));
         String newPassword = passwordData.get("newPassword");
@@ -185,7 +202,7 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/unblock")
-    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN')")
+    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'WORKER')")
     public ResponseEntity<Map<String, String>> unblockUser(@PathVariable Long userId) {
         userService.unblockUser(userId);
         Map<String, String> response = new HashMap<>();

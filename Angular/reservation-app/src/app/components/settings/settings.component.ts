@@ -30,7 +30,8 @@ export class SettingsComponent implements OnInit {
     city: '',
     zip: '',
     timezone: '',
-    prikaziCene: false
+    prikaziCene: false,
+    companyId: 0
   };
 
   timezones = [

@@ -13,6 +13,7 @@ import { AssignRolesComponent } from './components/profile/assign-roles/assign-r
 import { ChangePasswordComponent } from './components/profile/change-password/change-password.component';
 import { EditProfileComponent } from './components/profile/edit-profile/edit-profile.component'; 
 import { FeedbackAdminComponent } from './components/feedback/feedback-admin/feedback-admin.component';
+import { ReservationUserComponent } from './components/reservation-user/reservation-user.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -28,11 +29,16 @@ const routes: Routes = [
   { path: 'assign-roles', component: AssignRolesComponent },
   { path: 'change-password', component: ChangePasswordComponent },
   { path: 'edit-profile', component: EditProfileComponent },
-  { path: 'sve', component: ProfilePageComponent }
+  { path: 'sve', component: ProfilePageComponent },
+  
+ // { path: ':companyName', loadChildren: () => import('./components/reservation-user/reservation-user.component').then(m => m.ReservationUserComponent) }
+ { path: ':companyName', component: ReservationUserComponent }
+
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  //imports: [RouterModule.forRoot(routes, { useHash: true })], ovo je da se koristi #
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

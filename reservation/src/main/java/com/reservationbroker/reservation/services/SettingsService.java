@@ -15,5 +15,6 @@ public interface SettingsService {
     Setting saveSettings(Setting settings);
     // Save image URL in the specified column (e.g., for logo or background)
     void saveImageUrl(Long companyId, String imageUrl, String columnName);
+    Optional<Setting> getSettingsByCompanyName(String companyName);
 
 }

@@ -1,0 +1,48 @@
+<div class="reservation-user" *ngIf="settings" [ngClass]="settings.theme.toLowerCase()">
+
+  <!-- Pozadinska slika -->
+  <div class="background-image" *ngIf="settings?.imageUrlBackground"
+    [ngStyle]="{ 'background-image': 'url(' + settings.imageUrlBackground + ')' }"></div>
+
+  <div class="overlay">
+    <!-- Logo firme -->
+    <div class="logo" *ngIf="settings?.imageUrlLogo">
+      <img [src]="settings.imageUrlLogo" alt="Company Logo" />
+    </div>
+
+    <!-- Kontakt podaci -->
+    <div class="contact-info mb-3">
+      <p *ngIf="settings?.address">{{ settings.address }}, {{ settings.city }} {{ settings.zip }}</p>
+      <p *ngIf="settings?.email">📧 {{ settings.email }}</p>
+      <p *ngIf="settings?.phone">📞 {{ settings.phone }}</p>
+    </div>
+
+    <!-- Koraci rezervacije -->
+    <div class="reservation-step">
+      <!-- Korak 1: Izbor radnika -->
+      <app-select-worker *ngIf="step === 'worker'" (workerSelected)="onWorkerSelected($event)"
+        [buttonShape]="buttonShape" [companyId]="settings.companyId"></app-select-worker>
+
+
+
+      <!-- Korak 2: Izbor usluge -->
+      <app-select-service *ngIf="step === 'service'" [worker]="selectedWorker"
+        (serviceSelected)="onServiceSelected($event)" [prikaziCene]="settings.prikaziCene  "
+        [cenovnik]="settings.cenovnik  " [buttonShape]="buttonShape"></app-select-service>
+
+      <!-- Korak 3: Izbor datuma -->
+      <app-select-date *ngIf="step === 'date'" [worker]="selectedWorker" [service]="selectedService"
+        (dateSelected)="onDateSelected($event)" [buttonShape]="buttonShape"></app-select-date>
+
+      <!-- Korak 4: Prijava/Registracija -->
+      <app-user-auth *ngIf="step === 'auth'" (userAuthenticated)="onUserAuthenticated($event)"
+        [buttonShape]="buttonShape"></app-user-auth>
+
+      <!-- Korak 5: Uspešno -->
+      <div *ngIf="step === 'done'" class="text-center mt-4">
+        <h3>✅ Uspešno ste napravili rezervaciju!</h3>
+        <p>Hvala što koristite naš sistem rezervacija.</p>
+      </div>
+    </div>
+  </div>
+</div>

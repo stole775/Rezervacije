@@ -24,7 +24,7 @@ export class ReservationAdminComponent implements OnInit {
 
   isSAdmin: boolean = false;
   isCAdmin: boolean = false;
-  isCustomer: boolean = false;
+  isUSER: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -54,7 +54,7 @@ export class ReservationAdminComponent implements OnInit {
     const userRole = this.authService.getUserRole();
     this.isSAdmin = userRole === 'SADMIN';
     this.isCAdmin = userRole === 'CADMIN';
-    this.isCustomer = userRole === 'CUSTOMER';
+    this.isUSER = userRole === 'USER';
     this.companyId = this.authService.getCompanyId();
 
     if (this.isSAdmin) {

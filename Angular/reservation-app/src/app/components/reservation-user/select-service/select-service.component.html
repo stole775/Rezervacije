@@ -1,0 +1,22 @@
+<div *ngIf="loading">Učitavanje usluga...</div>
+<div *ngIf="!loading && services.length === 0">Nema dostupnih usluga za izabranog radnika.</div>
+
+<div class="service-buttons d-flex flex-wrap" *ngIf="!loading && services.length > 0">
+  <button
+    *ngFor="let service of services"
+    (click)="selectService(service)"
+    [ngClass]="['btn', buttonShape === 'PILL' ? 'btn-pill' : 'btn-square', 'btn-outline-primary', 'me-2', 'mb-2']"
+  >
+    {{ service.name }} 
+    <span *ngIf="prikaziCene"> - {{ service.price }} RSD</span>
+  </button>
+</div>
+
+<div *ngIf="cenovnik && services.length > 0" class="mt-3">
+  <h5>Cenovnik</h5>
+  <ul>
+    <li *ngFor="let service of services">
+      {{ service.name }} - {{ service.price }} RSD
+    </li>
+  </ul>
+</div>

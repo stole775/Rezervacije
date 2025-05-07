@@ -39,8 +39,10 @@ services:
       MYSQL_DATABASE: rezervacije_db2
       MYSQL_USER: admin
       MYSQL_PASSWORD: sql123
-    ports:
-      - "3306:3306"  # Port baze
+    #ports:
+      #- "3306:3306"  # Port baze 
+    expose:
+      - "3306"
     volumes:
       - db_data:/var/lib/mysql  # Trajni volumen za MySQL podatke
       - ./mysql-init-scripts:/docker-entrypoint-initdb.d  # Inicijalne SQL skripte

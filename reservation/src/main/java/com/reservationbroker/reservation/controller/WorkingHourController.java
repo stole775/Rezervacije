@@ -22,7 +22,7 @@ public class WorkingHourController {
      * Dohvata radno vreme za određenu kompaniju i dan u nedelji
      */
     @GetMapping("/{companyId}/{dayOfWeek}")
-    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN')")
+    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'WORKER')")
     public ResponseEntity<WorkingHour> getWorkingHours(
             @PathVariable Long companyId,
             @PathVariable String dayOfWeek) {
@@ -36,7 +36,7 @@ public class WorkingHourController {
      * Dohvata sva radna vremena za kompaniju
      */
     @GetMapping("/{companyId}")
-    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN')")
+    @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'WORKER')")
     public ResponseEntity<List<WorkingHour>> getAllWorkingHours(@PathVariable Long companyId) {
         List<WorkingHour> workingHours = workingHoursService.getAllWorkingHoursForCompany(companyId);
         return ResponseEntity.ok(workingHours);
@@ -46,7 +46,7 @@ public class WorkingHourController {
      * Dodaje ili ažurira radno vreme
      */
     @PostMapping
-    @PreAuthorize("hasRole('SADMIN')")
+    @PreAuthorize("hasRole('SADMIN') or hasRole('WORKER')")
     public ResponseEntity<WorkingHour> saveWorkingHours(@RequestBody WorkingHour workingHours) {
         WorkingHour savedWorkingHours = workingHoursService.saveWorkingHours(workingHours);
         return ResponseEntity.ok(savedWorkingHours);
@@ -56,7 +56,7 @@ public class WorkingHourController {
      * Briše radno vreme po ID-ju
      */
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('SADMIN')")
+    @PreAuthorize("hasRole('SADMIN') or hasRole( 'WORKER')")
     public ResponseEntity<Void> deleteWorkingHours(@PathVariable Long id) {
         workingHoursService.deleteWorkingHours(id);
         return ResponseEntity.noContent().build();

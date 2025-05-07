@@ -37,7 +37,12 @@ import { PageSettingsComponent } from './components/settings/page-settings/page-
 import { ContactInfoComponent } from './components/settings/contact-info/contact-info.component';
 import { ImageSettingsComponent } from './components/settings/image-settings/image-settings.component';
 import { SettingsComponent } from './components/settings/settings.component';
- 
+import { ReservationUserComponent } from './components/reservation-user/reservation-user.component';
+import { SelectWorkerComponent } from './components/reservation-user/select-worker/select-worker.component';
+import { SelectServiceComponent } from './components/reservation-user/select-service/select-service.component';
+import { SelectDateComponent } from './components/reservation-user/select-date/select-date.component';
+import { UserAuthComponent } from './components/reservation-user/user-auth/user-auth.component';
+
 
 @NgModule({
   declarations: [
@@ -67,7 +72,12 @@ import { SettingsComponent } from './components/settings/settings.component';
     MessageSettingsComponent,
     PageSettingsComponent,
     ContactInfoComponent,
-    ImageSettingsComponent, 
+    ImageSettingsComponent,
+    ReservationUserComponent,
+    SelectWorkerComponent,
+    SelectServiceComponent,
+    SelectDateComponent,
+    UserAuthComponent,
   ],
   imports: [
     BrowserModule,

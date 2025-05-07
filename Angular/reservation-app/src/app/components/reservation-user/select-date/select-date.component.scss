@@ -1,0 +1,21 @@
+.calendar-day {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .calendar-day.selected {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .btn-pill {
+    border-radius: 30px;
+  }
+  
+  .btn-square {
+    border-radius: 5px;
+  }
+  

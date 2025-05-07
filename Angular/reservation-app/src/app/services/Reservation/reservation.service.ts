@@ -48,8 +48,18 @@ getUserReservationsByCompanyid(companyId: number): Observable<any> {
 }
 
 
+getAllWorkers(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/users/workers`);
+}
 
  
+getWorkersByCompanyId(companyId: number): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/users/workersByCompany`, {
+    params: { companyId }
+  });
+}
+
+
  //dodati da vraca sve rezervacije na osnovu id kompanije za cadmina
  
 }
