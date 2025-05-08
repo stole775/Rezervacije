@@ -20,8 +20,13 @@
     <!-- Koraci rezervacije -->
     <div class="reservation-step">
       <!-- Korak 1: Izbor radnika -->
-      <app-select-worker *ngIf="step === 'worker'" (workerSelected)="onWorkerSelected($event)"
-        [buttonShape]="buttonShape" [companyId]="settings.companyId"></app-select-worker>
+      <app-select-worker
+  *ngIf="step === 'worker'"
+  (workerSelected)="onWorkerSelected($event)"
+  [buttonShape]="buttonShape"
+  [companyId]="companyId"   
+></app-select-worker>
+
 
 
 

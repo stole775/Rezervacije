@@ -149,11 +149,10 @@ public class UserController {
     @GetMapping("/users/workersByCompany")
     public ResponseEntity<List<User>> getWorkersByCompanyId(@RequestParam Long companyId) {
         List<User> workers = userService.getWorkersByCompanyId(companyId);
-        for(User user : workers) {
-            user.setPassword("****");
-        }
+        workers.forEach(w -> w.setPassword("****"));
         return ResponseEntity.ok(workers);
     }
+
 
 
 

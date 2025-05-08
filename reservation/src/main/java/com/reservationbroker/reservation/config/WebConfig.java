@@ -39,7 +39,7 @@ public class WebConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/auth/login", "/api/auth/login", "/api/reservations/create", "/api/reservations/create-with-marketing").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/public/**", "/images/**", "/api/uploaded_images/**", "/uploaded_images/**","/api/settings/company-name/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/public/**", "/images/**", "/api/uploaded_images/**", "/uploaded_images/**","/api/settings/company-name/**", "/api/users/workersByCompany").permitAll()
                         .anyRequest().authenticated())
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 

@@ -17,23 +17,27 @@ export class SelectWorkerComponent implements OnInit {
 
   @Input() companyId!: number;
 
-ngOnInit(): void {
-  if (this.companyId) {
-    this.workerService.getWorkersByCompanyId(this.companyId).subscribe({
-      next: (data) => {
-        this.workers = data;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Greška pri učitavanju radnika:', err);
-        this.loading = false;
-      }
-    });
-  }else{
-    console.error('Greška pri učitavanju companyid:');
-        this.loading = false;
+  ngOnInit(): void {
+    console.log('[SelectWorkerComponent] Primljen companyId:', this.companyId);
+  
+    if (this.companyId) {
+      this.workerService.getWorkersByCompanyId(this.companyId).subscribe({
+        next: (data) => {
+          console.log('[SelectWorkerComponent] Dobijeni radnici:', data);
+          this.workers = data;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('[SelectWorkerComponent] Greška pri učitavanju radnika:', err);
+          this.loading = false;
+        }
+      });
+    } else {
+      console.error('[SelectWorkerComponent] companyId nije prosleđen');
+      this.loading = false;
+    }
   }
-}
+  
 
 
   selectWorker(worker: any) {
