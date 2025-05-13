@@ -12,8 +12,7 @@ services:
       - backend
     networks:
       - app-network
-    volumes: #dodalo sam ovo sada
-      - ./angular-build:/usr/share/nginx/html
+    
 
   backend:
     build:
