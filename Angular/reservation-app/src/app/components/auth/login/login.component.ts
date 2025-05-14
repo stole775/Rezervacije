@@ -21,7 +21,7 @@ export class LoginComponent {
     this.authService.login(this.loginData.username, this.loginData.password).subscribe({
       next: (response) => {
         this.authService.handleAuthentication(response.jwt); // Save the token
-        this.router.navigate(['/reservations']); // Redirect on successful login
+        this.router.navigate(['/admin/reservations']); // Redirect on successful login
       },
       error: () => {
         this.errorMessage = 'Invalid login credentials. Please try again.';

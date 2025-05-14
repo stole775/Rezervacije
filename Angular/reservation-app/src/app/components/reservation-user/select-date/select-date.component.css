@@ -19,3 +19,13 @@
     border-radius: 5px;
   }
   
+  .day-buttons button,
+.time-slots button {
+  min-width: 120px;
+  font-weight: 500;
+}
+
+button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

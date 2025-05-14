@@ -140,6 +140,6 @@ export class AuthService {
     console.log('Login successful:', jwt);
     localStorage.setItem('jwtToken', jwt);
     this.currentUserSubject.next(jwtDecode(jwt));
-    this.router.navigate(['/']);
+    this.router.navigate(['/admin/reservations']);
   }
 }

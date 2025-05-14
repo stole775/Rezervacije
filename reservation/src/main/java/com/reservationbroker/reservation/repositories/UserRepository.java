@@ -18,7 +18,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllByCompanyIdAndBlocked(Long companyId, boolean blocked);
     @Query("SELECT u FROM User u WHERE u.role.id = 6")
     List<User> findAllByRole(String worker);
-    @Query("SELECT u FROM User u WHERE u.role.name = 'WORKER' AND u.company.id = :companyId")
+    @Query("SELECT u FROM User u WHERE u.role.id = 6 AND u.company.id = :companyId")
     List<User> findWorkersByCompanyId(@Param("companyId") Long companyId);
+
 
 }

@@ -77,7 +77,7 @@ import { UserAuthComponent } from './components/reservation-user/user-auth/user-
     SelectWorkerComponent,
     SelectServiceComponent,
     SelectDateComponent,
-    UserAuthComponent,
+    UserAuthComponent, 
   ],
   imports: [
     BrowserModule,

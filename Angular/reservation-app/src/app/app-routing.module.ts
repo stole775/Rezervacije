@@ -16,26 +16,33 @@ import { FeedbackAdminComponent } from './components/feedback/feedback-admin/fee
 import { ReservationUserComponent } from './components/reservation-user/reservation-user.component';
 
 const routes: Routes = [
-  { path: ':companyName', component: ReservationUserComponent },
-  { path: '', component: LoginComponent },
-  { path: 'register', component: RegistrationComponent },
-  { path: 'reservations', component: ReservationTableComponent },
-  { path: 'add-reservation', component: ReservationAdminComponent }, 
-  { path: 'pending', component: PendingReservationsComponent },
-  { path: 'settings', component: SettingsComponent },
-  { path: 'feedback', component: FeedbackComponent },
-  { path: 'feedback/admin', component: FeedbackAdminComponent },
-  { path: 'profile', component: ProfilePageComponent },
-  { path: 'blocked-accounts', component: BlockedAccountsComponent },
-  { path: 'assign-roles', component: AssignRolesComponent },
-  { path: 'change-password', component: ChangePasswordComponent },
-  { path: 'edit-profile', component: EditProfileComponent },
-  { path: 'sve', component: ProfilePageComponent },
-  
- // { path: ':companyName', loadChildren: () => import('./components/reservation-user/reservation-user.component').then(m => m.ReservationUserComponent) }
- 
+  { path: '', redirectTo: 'admin', pathMatch: 'full' },
 
+  {
+    path: 'admin',
+    children: [
+      { path: '', component: LoginComponent },
+      { path: 'register', component: RegistrationComponent },
+      { path: 'reservations', component: ReservationTableComponent },
+      { path: 'add-reservation', component: ReservationAdminComponent },
+      { path: 'pending', component: PendingReservationsComponent },
+      { path: 'settings', component: SettingsComponent },
+      { path: 'feedback', component: FeedbackComponent },
+      { path: 'feedback/admin', component: FeedbackAdminComponent },
+      { path: 'profile', component: ProfilePageComponent },
+      { path: 'blocked-accounts', component: BlockedAccountsComponent },
+      { path: 'assign-roles', component: AssignRolesComponent },
+      { path: 'change-password', component: ChangePasswordComponent },
+      { path: 'edit-profile', component: EditProfileComponent },
+      { path: 'sve', component: ProfilePageComponent },
+    ]
+  },
+
+  // Rute za korisnike
+  { path: ':companyName', component: ReservationUserComponent }
 ];
+
+
 
 @NgModule({
   //imports: [RouterModule.forRoot(routes, { useHash: true })], ovo je da se koristi #

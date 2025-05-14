@@ -1,9 +1,44 @@
-/*css*/
-.btn.pill {
-    border-radius: 50px;
-  }
-  
-  .btn.square {
-    border-radius: 0;
-  }
-  
+/* Dugmad */
+.btn-pill {
+  border-radius: 30px;
+  padding: 0.5rem 1.5rem;
+  margin: 0.4rem;
+  border: 1px solid #007bff;
+  color: #007bff;
+  background-color: #fff;
+  transition: all 0.2s ease;
+}
+
+.btn-pill:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-square {
+  border-radius: 5px;
+  padding: 0.5rem 1.5rem;
+  margin: 0.4rem;
+  border: 1px solid #28a745;
+  color: #28a745;
+  background-color: #fff;
+  transition: all 0.2s ease;
+}
+
+.btn-square:hover {
+  background-color: #28a745;
+  color: white;
+}
+
+/* Kontejner za dugmad */
+.service-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+/* Radnik dugmad */
+.btn {
+  min-width: 200px;
+  text-align: left;
+}

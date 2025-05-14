@@ -1,32 +1,35 @@
-<div class="calendar d-flex flex-wrap mb-4">
+<div class="date-navigation d-flex justify-content-between align-items-center mb-3">
+  <button class="btn btn-secondary" (click)="previousWeek()">&larr; Prethodna</button>
+  <h5 class="m-0">{{ weekLabel }}</h5>
+  <button class="btn btn-secondary" (click)="nextWeek()">&rarr; Sledeća</button>
+</div>
+
+<div class="day-buttons d-flex flex-wrap justify-content-center">
+  <button
+    *ngFor="let date of displayedDates"
+    class="btn btn-outline-primary m-2"
+    [class.disabled]="isPastDate(date)"
+    [disabled]="isPastDate(date)"
+    (click)="selectDate(date)"
+  >
+    {{ date | date:'EEE dd.MM.' }}
+  </button>
+</div>
+
+<div *ngIf="selectedDate && timeSlots.length > 0" class="time-slots mt-3 text-center">
+  <h6>Izaberite vreme za {{ selectedDate | date:'dd.MM.yyyy' }}</h6>
+  <div class="d-flex flex-wrap justify-content-center">
     <button
-      *ngFor="let date of calendarDays"
-      class="calendar-day me-2 mb-2"
-      [disabled]="!isDateSelectable(date)"
-      (click)="selectDate(date)"
-      [ngClass]="{
-        selected: formatDate(date) === selectedDate,
-        'btn-pill': buttonShape === 'PILL',
-        'btn-square': buttonShape === 'SQUARE'
-      }"
-    >
-      {{ date | date: 'EEE dd.MM.' }}
-    </button>
-  </div>
-  
-  <div *ngIf="loadingSlots">Učitavam termine...</div>
-  
-  <div *ngIf="!loadingSlots && availableSlots.length > 0" class="slots d-flex flex-wrap">
-    <button
-      *ngFor="let slot of availableSlots"
+      *ngFor="let slot of timeSlots"
+      class="btn btn-outline-success m-2"
+      [disabled]="isPastTime(slot)"
       (click)="selectTime(slot)"
-      class="btn btn-outline-success me-2 mb-2"
     >
       {{ slot }}
     </button>
   </div>
-  
-  <div *ngIf="!loadingSlots && selectedDate && availableSlots.length === 0">
-    <p>Nema dostupnih termina za ovaj datum.</p>
-  </div>
-  
+</div>
+
+<div *ngIf="selectedDate && timeSlots.length === 0" class="text-center mt-3">
+  <p>Nema dostupnih termina za izabrani dan.</p>
+</div>

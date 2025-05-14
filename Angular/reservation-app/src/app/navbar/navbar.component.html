@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <!-- Navbar Brand -->
-    <a class="navbar-brand fs-4" routerLink="/">Rezervacije</a>
+    <a class="navbar-brand fs-4" routerLink="/admin/">Rezervacije</a>
 
     <!-- Mobile Toggle Button -->
     <button
@@ -27,7 +27,7 @@
         <li class="nav-item" *ngIf="!isAddReservationPage">
           <a
             class="nav-link fs-5 py-3"
-            routerLink="/add-reservation"
+            routerLink="/admin/add-reservation"
             (click)="closeMenu()"
           >
             <i class="fas fa-plus me-2"></i> Dodaj rezervaciju
@@ -38,7 +38,7 @@
         <li class="nav-item" *ngIf="!isReservationsPage">
           <a
             class="nav-link fs-5 py-3"
-            routerLink="/reservations"
+            routerLink="/admin/reservations"
             (click)="closeMenu()"
           >
             <i class="fas fa-calendar-alt me-2"></i> Rezervacije
@@ -49,7 +49,7 @@
         <li class="nav-item">
           <a
             class="nav-link fs-5 py-3"
-            routerLink="/feedback"
+            routerLink="/admin/feedback"
             (click)="closeMenu()"
           >
             <i class="fas fa-comments me-2"></i> Feedback
@@ -60,7 +60,7 @@
         <li class="nav-item">
           <a
             class="nav-link fs-5 py-3"
-            routerLink="/profile"
+            routerLink="/admin/profile"
             (click)="closeMenu()"
           >
             <i class="fas fa-user me-2"></i> Profil
@@ -71,7 +71,7 @@
         <li class="nav-item" *ngIf="!isCustomer">
           <a
             class="nav-link fs-5 py-3"
-            routerLink="/settings"
+            routerLink="/admin/settings"
             (click)="closeMenu()"
           >
             <i class="fas fa-cog me-2"></i> Podešavanja

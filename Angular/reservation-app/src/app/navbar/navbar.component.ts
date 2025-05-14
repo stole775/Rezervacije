@@ -21,8 +21,8 @@ export class NavbarComponent {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         // Use urlAfterRedirects to get the final URL after redirects
-        this.isAddReservationPage = event.urlAfterRedirects === '/add-reservation';
-        this.isReservationsPage = event.urlAfterRedirects === '/reservations';
+        this.isAddReservationPage = event.urlAfterRedirects === '/admin/add-reservation';
+        this.isReservationsPage = event.urlAfterRedirects === '/admin/reservations';
       }
     });
   }
@@ -37,7 +37,8 @@ export class NavbarComponent {
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(['/']);
+    this.router.navigate(['/admin']);
+
     this.closeMenu();
   }
 }

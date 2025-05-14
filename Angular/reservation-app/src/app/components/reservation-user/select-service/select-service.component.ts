@@ -24,6 +24,8 @@ export class SelectServiceComponent implements OnInit {
         next: (data) => {
           this.services = data;
           this.loading = false;
+          console.log('Usluge:', this.services);
+
         },
         error: (err) => {
           console.error('Greška pri učitavanju usluga:', err);

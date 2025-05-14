@@ -6,9 +6,9 @@
     *ngFor="let service of services"
     (click)="selectService(service)"
     [ngClass]="['btn', buttonShape === 'PILL' ? 'btn-pill' : 'btn-square', 'btn-outline-primary', 'me-2', 'mb-2']"
-  >
-    {{ service.name }} 
-    <span *ngIf="prikaziCene"> - {{ service.price }} RSD</span>
+  > 
+   <p>{{ service.naziv }} - {{ service.cena }} RSD trajanje {{ service.trajanje }}</p> 
+      
   </button>
 </div>
 
@@ -16,7 +16,7 @@
   <h5>Cenovnik</h5>
   <ul>
     <li *ngFor="let service of services">
-      {{ service.name }} - {{ service.price }} RSD
+      <p> {{ service.naziv }} - {{ service.cena }} RSD</p>
     </li>
   </ul>
 </div>

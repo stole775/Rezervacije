@@ -7,8 +7,9 @@
   <div class="overlay">
     <!-- Logo firme -->
     <div class="logo" *ngIf="settings?.imageUrlLogo">
-      <img [src]="settings.imageUrlLogo" alt="Company Logo" />
+      <img [src]="'/api/uploaded_images/' + settings.imageUrlLogo" alt="Company Logo" />
     </div>
+    
 
     <!-- Kontakt podaci -->
     <div class="contact-info mb-3">
