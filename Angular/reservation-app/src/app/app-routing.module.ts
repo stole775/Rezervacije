@@ -17,7 +17,7 @@ import { ReservationUserComponent } from './components/reservation-user/reservat
 
 const routes: Routes = [
   { path: ':companyName', component: ReservationUserComponent },
-  { path: '', component: LoginComponent, pathMatch: 'full' },
+  { path: '', component: LoginComponent },
   { path: 'register', component: RegistrationComponent },
   { path: 'reservations', component: ReservationTableComponent },
   { path: 'add-reservation', component: ReservationAdminComponent }, 
