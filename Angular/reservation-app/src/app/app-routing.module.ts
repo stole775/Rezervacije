@@ -16,7 +16,7 @@ import { FeedbackAdminComponent } from './components/feedback/feedback-admin/fee
 import { ReservationUserComponent } from './components/reservation-user/reservation-user.component';
 
 const routes: Routes = [
-  { path: 'full', component: LoginComponent },
+  { path: '', component: LoginComponent, pathMatch: 'full' },
   { path: 'register', component: RegistrationComponent },
   { path: 'reservations', component: ReservationTableComponent },
   { path: 'add-reservation', component: ReservationAdminComponent }, 
