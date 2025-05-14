@@ -10,18 +10,28 @@ import { NavigationEnd, Router } from '@angular/router';
 export class AppComponent implements OnInit {
   title = 'reservation-app';
   isLoginPage: boolean = false;
+  isReservationUserPage: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        // Check if the current route is login
-        this.isLoginPage = event.url === '/';
+        const currentUrl = event.urlAfterRedirects || event.url;
+  
+        this.isLoginPage = currentUrl === '/';
+  
+        const segments = currentUrl.split('/').filter(Boolean);
+        // ako URL ima samo jedan segment, npr. /Telefoni018
+        this.isReservationUserPage = segments.length === 1 && !!segments[0];
+//        this.isReservationUserPage = !this.authService.isLoggedIn() && segments.length === 1;
+
       }
     });
-   // this.checkAuthentication();
+  
+    // this.checkAuthentication(); // možeš ovo ostaviti ako rešiš prethodni problem
   }
+  
 
   checkAuthentication(): void {
     if (!this.authService.isLoggedIn()) {

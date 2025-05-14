@@ -65,21 +65,21 @@ public class UserController {
         try {
             // Pronađi postojećeg korisnika po ID-u
             Optional<User> existingUserOpt = userService.findUserbyId(id);
-          //  System.out.println("Pokušaj ažuriranja korisnika sa ID: " + id);
+            //  System.out.println("Pokušaj ažuriranja korisnika sa ID: " + id);
 
             if (existingUserOpt.isPresent()) {
                 User existingUser = existingUserOpt.get();
-              //  System.out.println("Postojeći korisnik: " + existingUser);
+                //  System.out.println("Postojeći korisnik: " + existingUser);
 
                 // Provera da li već postoji korisnik sa istim korisničkim imenom (username)
                 Optional<User> userWithSameUsername = userService.findByUsername(updatedUser.getUsername());
-               // System.out.println("Traženje korisnika sa korisničkim imenom: " + updatedUser.getUsername());
+                // System.out.println("Traženje korisnika sa korisničkim imenom: " + updatedUser.getUsername());
                 if (userWithSameUsername.isPresent()) {
                     User foundUser = userWithSameUsername.get();
                     //System.out.println("Pronađen korisnik sa istim korisničkim imenom: " + foundUser);
 
                     if (!foundUser.getId().equals(id)) {
-                      //  System.out.println("Korisničko ime već postoji kod drugog korisnika. ID drugog korisnika: " + foundUser.getId());
+                        //  System.out.println("Korisničko ime već postoji kod drugog korisnika. ID drugog korisnika: " + foundUser.getId());
                         return ResponseEntity.status(HttpStatus.CONFLICT)
                                 .body(Map.of("field", "username", "message", "Korisničko ime '" + updatedUser.getUsername() + "' već postoji."));
                     }
@@ -87,13 +87,13 @@ public class UserController {
 
                 // Provera da li već postoji korisnik sa istim emailom
                 Optional<User> userWithSameEmail = userService.findByEmail(updatedUser.getEmail());
-               // System.out.println("Traženje korisnika sa emailom: " + updatedUser.getEmail());
+                // System.out.println("Traženje korisnika sa emailom: " + updatedUser.getEmail());
                 if (userWithSameEmail.isPresent()) {
                     User foundUser = userWithSameEmail.get();
-                   // System.out.println("Pronađen korisnik sa istim emailom: " + foundUser);
+                    // System.out.println("Pronađen korisnik sa istim emailom: " + foundUser);
 
                     if (!foundUser.getId().equals(id)) {
-                       // System.out.println("Email već postoji kod drugog korisnika. ID drugog korisnika: " + foundUser.getId());
+                        // System.out.println("Email već postoji kod drugog korisnika. ID drugog korisnika: " + foundUser.getId());
                         return ResponseEntity.status(HttpStatus.CONFLICT)
                                 .body(Map.of("field", "email", "message", "Email '" + updatedUser.getEmail() + "' već postoji."));
                     }
@@ -120,12 +120,12 @@ public class UserController {
                 }
 
                 // Čuvanje korisnika nazad u bazu
-               // System.out.println("Ažurirani podaci korisnika: " + existingUser);
+                // System.out.println("Ažurirani podaci korisnika: " + existingUser);
                 userService.updateUser(existingUser);
 
                 return ResponseEntity.ok(existingUser); // Vraćanje ažuriranog korisnika
             } else {
-               // System.out.println("Korisnik sa ID: " + id + " nije pronađen.");
+                // System.out.println("Korisnik sa ID: " + id + " nije pronađen.");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found with ID: " + id);
             }
 
@@ -136,7 +136,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/users/workers")
+    @GetMapping("/workers")
     @PreAuthorize("hasAnyRole('SADMIN', 'CADMIN', 'CUSTOMER', 'WORKER')")
     public ResponseEntity<List<User>> getAllWorkers() {
         List<User> workers = userService.getAllWorkers();
@@ -146,7 +146,7 @@ public class UserController {
         return ResponseEntity.ok(workers);
     }
 
-    @GetMapping("/users/workersByCompany")
+    @GetMapping("/workersByCompany")
     public ResponseEntity<List<User>> getWorkersByCompanyId(@RequestParam Long companyId) {
         List<User> workers = userService.getWorkersByCompanyId(companyId);
         workers.forEach(w -> w.setPassword("****"));

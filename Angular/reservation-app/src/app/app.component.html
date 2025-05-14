@@ -9,8 +9,8 @@
 >
 <link rel="stylesheet" href="/styles.css">
 
-<!-- Show the navbar only when not on the login page -->
-<app-navbar *ngIf="!isLoginPage"></app-navbar>
+<!-- app.component.html -->
+<app-navbar *ngIf="!isLoginPage && !isReservationUserPage"></app-navbar>
 
-<!-- Page content -->
 <router-outlet></router-outlet>
+
