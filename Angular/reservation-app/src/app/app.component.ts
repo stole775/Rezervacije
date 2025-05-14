@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
         this.isLoginPage = event.url === '/';
       }
     });
-    this.checkAuthentication();
+   // this.checkAuthentication();
   }
 
   checkAuthentication(): void {
