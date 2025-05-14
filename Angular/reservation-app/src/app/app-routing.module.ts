@@ -16,6 +16,7 @@ import { FeedbackAdminComponent } from './components/feedback/feedback-admin/fee
 import { ReservationUserComponent } from './components/reservation-user/reservation-user.component';
 
 const routes: Routes = [
+  { path: ':companyName', component: ReservationUserComponent },
   { path: '', component: LoginComponent, pathMatch: 'full' },
   { path: 'register', component: RegistrationComponent },
   { path: 'reservations', component: ReservationTableComponent },
@@ -32,7 +33,7 @@ const routes: Routes = [
   { path: 'sve', component: ProfilePageComponent },
   
  // { path: ':companyName', loadChildren: () => import('./components/reservation-user/reservation-user.component').then(m => m.ReservationUserComponent) }
- { path: ':companyName', component: ReservationUserComponent }
+ 
 
 ];
 
